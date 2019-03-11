@@ -45,7 +45,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Some examples",
     "title": "And the \"Hello Round World\"",
     "category": "section",
-    "text": "x = range(0, stop=2pi, length=180);       seno = sin.(x/0.2)*45;\ncoast(region=[0 360 -90 90], proj=\"A300/30/6c\", axis=:g, resolution=\"c\", land=:navy)\n\nplot!(collect(x)*60, seno, lw=0.5, lc=:red, fmt=:png, marker=:circle,\n      markeredgecolor=0, size=0.05, markerfacecolor=:cyan, show=true)In this example region=[0 360 -90 90]  means the domain is the whole Earth, axis=:g sets the grid on, resolution=:c selects the crude coast lines resolution and the  land=:navy paints the continents with a navy blue color. More complex is the proj=\"A300/30/6c\" argument that selects the map projection, which is a Lambert projection with projection center at 300 degrees East, 0 degrees North. The 6c sets the map width of 6 centimeters.(Image: \"Hello round world\")Note that now the first command, the coast, does not have the show keyword. It means we are here creating the first layer but we don\'t want to see it just yet. The second command uses the ! variation of the plot function, which means that we are appending to a previous plot, and uses the show=true because we are done with this figure."
+    "text": "x = range(0, stop=2pi, length=180);       seno = sin.(x/0.2)*45;\ncoast(region=[0 360 -90 90], proj=(name=:laea, center=(300,30)), frame=:g,\n      res=:crude, land=:navy, figsize=6)\n\nplot!(collect(x)*60, seno, lw=0.5, lc=:red, fmt=:png, marker=:circle,\n      markeredgecolor=0, size=0.05, markerfacecolor=:cyan, show=true)In this example region=[0 360 -90 90]  means the domain is the whole Earth, axis=:g sets the grid on, resolution=:c selects the crude coast lines resolution and the  land=:navy paints the continents with a navy blue color. More complex is the proj=\"A300/30/6c\" argument that selects the map projection, which is a Lambert projection with projection center at 300 degrees East, 0 degrees North. The 6c sets the map width of 6 centimeters.(Image: \"Hello round world\")Note that now the first command, the coast, does not have the show keyword. It means we are here creating the first layer but we don\'t want to see it just yet. The second command uses the ! variation of the plot function, which means that we are appending to a previous plot, and uses the show=true because we are done with this figure."
 },
 
 {
@@ -61,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Some examples",
     "title": "Color images",
     "category": "section",
-    "text": "Color images are made with grdimage which takes the usual common options and a color map. It operates over grids or images. The next example shows how to create a color appropriate for the grid\'s z range, plot the image and add a color scale. We use here the data keyword to tell the program to load the grid from a file. The  before the tut_relief.nc file name instructs GMT to download the file from its server on the first usage and save it in a cache dir. See the GMT tuturial for more details about what the arguments mean.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdimage(\"@tut_relief.nc\", shade=\"+ne0.8+a100\", proj=\"M12c\", axis=:a, color=topo)\ncolorbar!(position=\"jTC+w5i/0.25i+h+o0/-1i\", region=[-108 -103 35 40], color=topo,\n          proj=[], axis=\"y+lm\", fmt=:jpg, show=true)(Image: \"Hello shaded world\")"
+    "text": "Color images are made with grdimage which takes the usual common options and a color map. It operates over grids or images. The next example shows how to create a color appropriate for the grid\'s z range, plot the image and add a color scale. We use here the data keyword to tell the program to load the grid from a file. The  before the tut_relief.nc file name instructs GMT to download the file from its server on the first usage and save it in a cache dir. See the GMT tuturial for more details about what the arguments mean.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdimage(\"@tut_relief.nc\", shade=\"+ne0.8+a100\", proj=\"M12c\", axis=:a, color=topo)\ncolorbar!(position=\"jTC+w5i/0.25i+h+o0/-1i\", region=[-108 -103 35 40], color=topo,\n          proj=[], frame=\"y+lm\", fmt=:jpg, show=true)(Image: \"Hello shaded world\")"
 },
 
 {
@@ -69,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Some examples",
     "title": "Perspective view",
     "category": "section",
-    "text": "We will make a perspective, color-coded view of the US Rockies from the southeast.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdview(\"@tut_relief.nc\", proj=\"M12c\", JZ=\"1c\", shade=\"+ne0.8+a100\", view=(135,30),\n        axis=:a, fmt=:jpg, color=topo, Q=\"i100\", show=true)(Image: \"Hello 3D view world\")Above we used the Peaks function to create a contour plot. Let us use that grid again and display it this time as 3D bar plot in a perspective view. cmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)(Image: \"Hello bar3D\")"
+    "text": "We will make a perspective, color-coded view of the US Rockies from the southeast.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdview(\"@tut_relief.nc\", proj=\"M12c\", JZ=\"1c\", shade=\"+ne0.8+a100\", view=(135,30),\n        frame=:a, fmt=:jpg, color=topo, Q=\"i100\", show=true)(Image: \"Hello 3D view world\")Above we used the Peaks function to create a contour plot. Let us use that grid again and display it this time as 3D bar plot in a perspective view. cmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)(Image: \"Hello bar3D\")"
 },
 
 {
@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Some examples",
     "title": "Warp image in geographical projection",
     "category": "section",
-    "text": "In this example we will load a network image (GDAL will do that for us) and make a creative world map. First command, the imshow, needs to set show=false to no display the image before it is complete. We have to do this because imshow is a one command only shot and so, by default, it has the show keyword hardwire to true.imshow(\"http://larryfire.files.wordpress.com/2009/07/untooned_jessicarabbit.jpg\",\n      axis=:g, region=:d, proj=\"I15c\", image_in=:r, show=false)\ncoast!(shore=\"1,white\", resolution=:c, fmt=:png, show=true)(Image: SinuJessica)"
+    "text": "In this example we will load a network image (GDAL will do that for us) and make a creative world map. First command, the imshow, needs to set show=false to no display the image before it is complete. We have to do this because imshow is a one command only shot and so, by default, it has the show keyword hardwire to true.imshow(\"http://larryfire.files.wordpress.com/2009/07/untooned_jessicarabbit.jpg\",\n      frame=:g, region=:d, proj=:Sinusoidal, image_in=:r, show=false)\ncoast!(shore=(1,:white), resolution=:c, figsize=15, fmt=:png, show=true)(Image: SinuJessica)"
 },
 
 {
@@ -182,6 +182,294 @@ var documenterSearchIndex = {"docs": [
     "title": "Custom axes",
     "category": "section",
     "text": "    basemap(region=\"416/542/0/6.2831852\", proj=\"X-12/5\",\n            axis=(frame=(:left_full, :bot_full), fill=:lightblue),\n            xaxis=(annot=25, ticks=5, grid=25, suffix=\" Ma\"),\n            yaxis=(custom=(pos=[0 1 2 2.71828 3 3.1415926 4 5 6 6.2831852],\n                            type_=[\"a\", \"a\", \"f\", \"ag e\", \"f\", \"ag @~p@~\", \"f\", \"f\", \"f\", \"ag 2@~p@~\"]),),)\n\n    basemap!(axis=(frame=(:left_full, :bot_full),),\n            xaxis2=(custom=(pos=[416.0; 443.7; 488.3; 542],\n                            type_=[\"ig Devonian\", \"ig Silurian\", \"ig Ordovician\", \"ig Cambrian\"]),),\n            par=(MAP_ANNOT_OFFSET_SECONDARY=\"10p\", MAP_GRID_PEN_SECONDARY=\"2p\"), fmt=:png, show=true)(Image: \"B_time7\")"
+},
+
+{
+    "location": "proj_examples/#",
+    "page": "Map projections",
+    "title": "Map projections",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "proj_examples/#Conic-projections-1",
+    "page": "Map projections",
+    "title": "Conic projections",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "proj_examples/#Albers-conic-equal-area-projection-1",
+    "page": "Map projections",
+    "title": "Albers conic equal-area projection",
+    "category": "section",
+    "text": "This projection, developed by Albers in 1805, is predominantly used to map regions of large east-west extent, in particular the United States. It is a conic, equal-area projection, in which parallels are unequally spaced arcs of concentric circles, more closely spaced at the north and south edges of the map. Meridians, on the other hand, are equally spaced radii about a common center, and cut the parallels at right angles. Distortion in scale and shape vanishes along the two standard parallels. Between them, the scale along parallels is too small; beyond them it is too large. The opposite is true for the scale along meridians. To define the projection in GMT you need to provide the following information:Name: aea, Albers, GMT code -> B (width) b (scale)\nLongitude and latitude of the projection center.\nTwo standard parallels.\nMap scale in cm/degree or 1:xxxxx notation, or map width.Note that you must include the 1: if you choose to specify the scale that way. E.g., you can say 0.5 which means 0.5 cm/degree or 1:200000 which means 1 cm on the map equals 200,000 cm along the standard parallels. The projection center defines the origin of the rectangular map coordinates. As an example we will make a map of the region near Taiwan. We choose the center of the projection to be at 125ºE/20ºN and 25ºN and 45ºN as our two standard parallels. We desire a map that is 12 cm wide (the dafault).The complete command needed to generate the map below is therefore given by:coast(region=[110 140 20 35], proj=(name=:Albers, center=[125 20], parallels=[25 45]),\n      frame=:ag, res=:low, area=250, land=:green, shore=:thinnest, show=true)(Image: \"GMT_Albers\")<img src=\"figures/mapproj/GMT_albers.png\" alt=\"\" title=\"Albers equal-area conic map projection\" width=\"150\" height=\"100\"/>"
+},
+
+{
+    "location": "proj_examples/#Equidistant-conic-1",
+    "page": "Map projections",
+    "title": "Equidistant conic",
+    "category": "section",
+    "text": "The equidistant conic projection was described by the Greek philosopher Claudius Ptolemy about A.D. 150. It is neither conformal or equal-area, but serves as a compromise between them. The scale is true along all meridians and the standard parallels. To select this projection in GMT you must provide the same information as for the other conic projection, i.e.,Name: eqdc, conicEquidistant, GMT code -> D (width) d (scale)\nLongitude and latitude of the projection center.\nTwo standard parallels.\nMap scale in cm/degree or 1:xxxxx notation, or map width.The equidistant conic projection is often used for atlases with maps of small countries. As an example, we generate a map of Cuba:coast(region=[-88 -70 18 24], proj=(name=:eqdc, center=[-79 21], parallels=[19 23]),\n      frame=:ag, res=:intermediate, borders=(1,(\"thick\",\"red\")), land=:green,\n      shore=:thinnest, show=true)(Image: \"GMT_equidistant_conic\")"
+},
+
+{
+    "location": "proj_examples/#Lambert-conic-conformal-1",
+    "page": "Map projections",
+    "title": "Lambert conic conformal",
+    "category": "section",
+    "text": "This conic projection was designed by the Alsatian mathematician Johann Heinrich Lambert (1772) and has been used extensively for mapping of regions with predominantly east-west orientation, just like the Albers projection. Unlike the Albers projection, Lambert’s conformal projection is not equal-area. The parallels are arcs of circles with a common origin, and meridians are the equally spaced radii of these circles. As with Albers projection, it is only the two standard parallels that are distortion-free. To select this projection in GMT you must provide the same information as for the Albers projection, i.e.,Name: lcc, lambertConic, GMT code -> L (width) l (scale)\nLongitude and latitude of the projection center.\nTwo standard parallels.\nMap scale in cm/degree or 1:xxxxx notation, or map width.The Lambert conformal projection has been used for basemaps for all the 48 contiguous States with the two fixed standard parallels 33ºN and 45ºN. We will generate a map of the continental USA using these parameters. Note that with all the projections you have the option of selecting a rectangular border rather than one defined by meridians and parallels. Here, we choose the regular WESN region, a “fancy” basemap frame, and use degrees west for longitudes. The generating command used iscoast(region=[-130 -70 24 52], proj=(name=:lambertConic, center=[-100 35], parallels=[33 45]),\n      frame=:ag, res=:low, borders=(1,(\"thick\",\"red\"), 2,(\"thinner\",)), area=500, land=:tan,\n      water=:blue, shore=(:thinnest,:white), show=true)(Image: \"GMT_lambert_conic\")"
+},
+
+{
+    "location": "proj_examples/#(American)-polyconic-projection-1",
+    "page": "Map projections",
+    "title": "(American) polyconic projection",
+    "category": "section",
+    "text": "The polyconic projection, in Europe usually referred to as the American polyconic projection, was introduced shortly before 1820 by the Swiss-American cartographer Ferdinand Rodulph Hassler (1770–1843). As head of the Survey of the Coast, he was looking for a projection that would give the least distortion for mapping the coast of the United States. The projection acquired its name from the construction of each parallel, which is achieved by projecting the parallel onto the cone while it is rolled around the globe, along the central meridian, tangent to that parallel. As a consequence, the projection involves many cones rather than a single one used in regular conic projections.The polyconic projection is neither equal-area, nor conformal. It is true to scale without distortion along the central meridian. Each parallel is true to scale as well, but the meridians are not as they get further away from the central meridian. As a consequence, no parallel is standard because conformity is lost with the lengthening of the meridians.Name: poly, Polyconic, GMT code -> Poly (width) poly (scale)Below we reproduce the illustration by Snyder [1987], with a gridline every 10 and annotations only every 30º in longitude:coast(region=(-180,-20,0,90), proj=:poly, xaxis=(annot=30,grid=10), yaxis=(annot=10,grid=10),\n      res=:crude, area=1000, land=:lightgray, shore=:thinnest, figsize=10, show=true)(Image: \"GMT_Polyconic\")"
+},
+
+{
+    "location": "proj_examples/#Azimuthal-projections-1",
+    "page": "Map projections",
+    "title": "Azimuthal projections",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "proj_examples/#Lambert-Azimuthal-Equal-Area-1",
+    "page": "Map projections",
+    "title": "Lambert Azimuthal Equal-Area",
+    "category": "section",
+    "text": "This projection was developed by Lambert in 1772 and is typically used for mapping large regions like continents and hemispheres. It is an azimuthal, equal-area projection, but is not perspective. Distortion is zero at the center of the projection, and increases radially away from this point. To define this projection in GMT you must provide the following information:Name: laea, lambertAzimuthal, GMT code -> A (width) a (scale)\nLongitude and latitude of the projection center.\nOptionally, the horizon, i.e., the number of degrees from the center to the edge (<= 180, default is 90).\nScale as 1:xxxxx or as radius/latitude where radius is the projected distance on the map from projection center to an oblique latitude where 0 would be the oblique Equator, or map width.Two different types of maps can be made with this projection depending on how the region is specified. We will give examples of both types."
+},
+
+{
+    "location": "proj_examples/#Rectangular-map-1",
+    "page": "Map projections",
+    "title": "Rectangular map",
+    "category": "section",
+    "text": "In this mode we define our region by specifying the longitude/latitude of the lower left and upper right corners instead of the usual west, east, south, north boundaries. The reason for specifying our area this way is that for this and many other projections, lines of equal longitude and latitude are not straight lines and are thus poor choices for map boundaries. Instead we require that the map boundaries be rectangular by defining the corners of a rectangular map boundary. Using 0ºE/40ºS (lower left) and 60ºE/10ºS (upper right) as our corners we try.. Este so funciona uma vez por causa do -Gp. Depois e preciso fazer \"destroy\"coast(region=\"0/-40/60/-10+r\", proj=(name=:laea, center=[30,-30]), frame=:ag, res=:low,\n      area=500, land=(pattern=10,dpi=300), shore=:thinnest, figsize=10, show=1)(Image: \"Lambert_az_rect\")Note that an +r is appended to the region option to inform GMT that the region has been selected using the rectangle technique, otherwise it would try to decode the values as west, east, south, north and report an error since east < west."
+},
+
+{
+    "location": "proj_examples/#Hemisphere-map-1",
+    "page": "Map projections",
+    "title": "Hemisphere map",
+    "category": "section",
+    "text": "Here, you must specify the world as your region. E.g., to obtain a hemisphere view that shows the Americas, trycoast(region=:g, proj=(name=:laea, center=[0,30]), frame=:g, res=:crude, area=1000,\n      land=:navy, figsize=8, show=true)(Image: \"GMT_Lambert_az_hemi\")"
+},
+
+{
+    "location": "proj_examples/#Stereographic-Equal-Angle-1",
+    "page": "Map projections",
+    "title": "Stereographic Equal-Angle",
+    "category": "section",
+    "text": "This is a conformal, azimuthal projection that dates back to the Greeks. Its main use is for mapping the polar regions. In the polar aspect all meridians are straight lines and parallels are arcs of circles. While this is the most common use it is possible to select any point as the center of projection. The requirements areName: stere, Stereographic, GMT code -> S (width) s (scale)\nLongitude and latitude of the projection center.\nOptionally, the horizon, i.e., the number of degrees from the center to the edge (< 180, default is 90).\nScale as 1:xxxxx (true scale at pole), slat/1:xxxxx (true scale at standard parallel slat), or radius/latitude where radius is distance on map in inches from projection center to a particular oblique latitude, or simply map width.A default map scale factor of 0.9996 will be applied by default. However, the setting is ignored when a standard parallel has been specified since the scale is then implicitly given. We will look at two different types of maps."
+},
+
+{
+    "location": "proj_examples/#Polar-Stereographic-Map-1",
+    "page": "Map projections",
+    "title": "Polar Stereographic Map",
+    "category": "section",
+    "text": "In our first example we will let the projection center be at the north pole. This means we have a polar stereographic projection and the map boundaries will coincide with lines of constant longitude and latitude. An example is given bycoast(region=(-30,30,60,72), proj=(name=:Stereographic, center=[0,90], paralles=60),\n      frame=:a10g, res=:low, area=250, land=:royalblue, water=:seashell,\n      figscale=\"1:30000000\", show=1)(Image: \"GMT_stereographic_polar\")"
+},
+
+{
+    "location": "proj_examples/#Rectangular-stereographic-map-1",
+    "page": "Map projections",
+    "title": "Rectangular stereographic map",
+    "category": "section",
+    "text": "As with Lambert’s azimuthal equal-area projection we have the option to use rectangular boundaries rather than the wedge-shape typically associated with polar projections. This choice is defined by selecting two points as corners in the rectangle and appending an +r to the region option. This command produces a map as presented incoast(region=\"-25/59/70/72+r\", proj=(name=:stereographic, center=(10,90)), frame=:a20g, res=:low,\n      area=250, land=:darkbrown, shore=:thinnest, water=:lightgray, figsize=11, show=true)(Image: \"GMT_stereographic_rect\")"
+},
+
+{
+    "location": "proj_examples/#General-stereographic-map-1",
+    "page": "Map projections",
+    "title": "General stereographic map",
+    "category": "section",
+    "text": "In terms of usage this projection is identical to the Lambert azimuthal equal-area projection. Thus, one can make both rectangular and hemispheric maps. Our example shows Australia using a projection pole at 130ºE/30ºS. The command used wascoast(region=\"100/-42/160/-8r\", proj=(name=:stereographic, center=(130,-30)), frame=:ag, res=:low,\n      area=500, land=:green, ocean=:lightblue, shore=:thinnest, figsize=10, show=true)(Image: \"GMT_stereographic_general\")"
+},
+
+{
+    "location": "proj_examples/#Perspective-projection-1",
+    "page": "Map projections",
+    "title": "Perspective projection",
+    "category": "section",
+    "text": "The perspective projection imitates in 2 dimensions the 3-dimensional view of the earth from space. The implementation in GMT is very flexible, and thus requires many input variables. Those are listed and explained below, with the values used in figure below  between brackets.Name: GMT code -> G (width) g (scale)\nLongitude and latitude of the projection center (4ºE/52ºN).\nAltitude of the viewer above sea level in kilometers (230 km). If this value is less than 10, it is assumed to be the distance of the viewer from the center of the earth in earth radii. If an +r is appended, it is the distance from the center of the earth in kilometers.\nAzimuth in degrees (90, due east). This is the direction in which you are looking, measured clockwise from north.\nTilt in degrees (60). This is the viewing angle relative to zenith. So a tilt of 0º is looking straight down, 60º is looking from 30º above the horizon.\nTwist in degrees (180). This is the boresight rotation (clockwise) of the image. The twist of 180º in the example mimics the fact that the Space Shuttle flies upside down.\nWidth and height of the viewpoint in degrees (60). This number depends on whether you are looking with the naked eye (in which case you view is about 60º wide), or with binoculars, for example.\nScale as 1:xxxxx or as radius/latitude where radius is distance on map in inches from projection center to a particular oblique latitude, or map width (10 cm).The imagined view of northwest Europe from a Space Shuttle at 230 km looking due east is thus accomplished by the following coast command:coast(region=:g, proj=\"G4/52/230/90/60/180/60/60\", xaxis=(annot=2,grid=2), yaxis=(annot=1,grid=1),\n      rivers=:all, res=:intermediate, land=:lightbrown, ocean=:lightblue, shore=:thinnest, figsize=10,\n      par=(:MAP_ANNOT_MIN_SPACING,0.65), show=true)(Image: \"GMT_perspective\")"
+},
+
+{
+    "location": "proj_examples/#Orthographic-projection-1",
+    "page": "Map projections",
+    "title": "Orthographic projection",
+    "category": "section",
+    "text": "The orthographic azimuthal projection is a perspective projection from infinite distance. It is therefore often used to give the appearance of a globe viewed from outer space. As with Lambert’s equal-area and the stereographic projection, only one hemisphere can be viewed at any time. The projection is neither equal-area nor conformal, and much distortion is introduced near the edge of the hemisphere. The directions from the center of projection are true. The projection was known to the Egyptians and Greeks more than 2,000 years ago. Because it is mainly used for pictorial views at a small scale, only the spherical form is necessary.To specify the orthographic projection the same options -Jg or -JG as the perspective projection are used, but with fewer variables to supply:Name: ortho, Ortographic, GMT code -> G (width) g (scale)\nLongitude and latitude of the projection center.\nOptionally, the horizon, i.e., the number of degrees from the center to the edge (<= 90, default is 90).\nScale as 1:xxxxx or as radius/latitude where radius is distance on map in inches from projection center to a particular oblique latitude, or map width.Our example of a perspective view centered on 75ºW/40ºN can therefore be generated by the following coast command:coast(region=:g, proj=(name=:ortho, center=(-75,41)), frame=:g, res=:crude, area=5000,\n      land=:pink, ocean=:thistle, figsize=10, show=true)(Image: \"GMT_orthographic\")"
+},
+
+{
+    "location": "proj_examples/#Azimuthal-Equidistant-projection-1",
+    "page": "Map projections",
+    "title": "Azimuthal Equidistant projection",
+    "category": "section",
+    "text": "The most noticeable feature of this azimuthal projection is the fact that distances measured from the center are true. Therefore, a circle about the projection center defines the locus of points that are equally far away from the plot origin. Furthermore, directions from the center are also true. The projection, in the polar aspect, is at least several centuries old. It is a useful projection for a global view of locations at various or identical distance from a given point (the map center).To specify the azimuthal equidistant projection you must supply:Name: aeqd, azimuthalEquidistant, GMT code -> E (width) e (scale)\nLongitude and latitude of the projection center.\nOptionally, the horizon, i.e., the number of degrees from the center to the edge (<= 180, default is 180).\nScale as 1:xxxxx or as radius/latitude where radius is distance on map in inches from projection center to a particular oblique latitude, or map width.Our example of a global view centered on 100ºW/40ºN can therefore be generated by the following coast command. Note that the antipodal point is 180º away from the center, but in this projection this point plots as the entire map perimeter:coast(region=:g, proj=(name=:azimuthalEquidistant, center=(-100,40)), frame=:g,\n      res=:crude, area=10000, land=:lightgray, shore=:thinnest, figsize=10, show=true)(Image: \"GMT_az_equidistant\")"
+},
+
+{
+    "location": "proj_examples/#Gnomonic-projection-1",
+    "page": "Map projections",
+    "title": "Gnomonic projection",
+    "category": "section",
+    "text": "The Gnomonic azimuthal projection is a perspective projection from the center onto a plane tangent to the surface. Its origin goes back to the old Greeks who used it for star maps almost 2500 years ago. The projection is neither equal-area nor conformal, and much distortion is introduced near the edge of the hemisphere; in fact, less than a hemisphere may be shown around a given center. The directions from the center of projection are true. Great circles project onto straight lines. Because it is mainly used for pictorial views at a small scale, only the spherical form is necessary.To specify the Gnomonic projection you must supply:Name: gnom, Gnomonic, GMT code -> F (width) f (scale)\nLongitude and latitude of the projection center.\nOptionally, the horizon, i.e., the number of degrees from the center to the edge (< 90, default is 60).\nScale as 1:xxxxx or as radius/latitude where radius is distance on map in cm from projection center to a particular oblique latitude, or map width.Using a horizon of 60, our example of this projection centered on 120ºW/35ºN can therefore be generated by the following command:coast(region=:g, proj=(name=:Gnomonic, center=(-120,35), horizon=60),\n      frame=(annot=30, grid=15), res=:crude, area=10000, land=:tan, ocean=:cyan,\n      shore=:thinnest, figsize=10, show=true)(Image: \"GMT_gnomonic\")"
+},
+
+{
+    "location": "proj_examples/#Cylindrical-projections-1",
+    "page": "Map projections",
+    "title": "Cylindrical projections",
+    "category": "section",
+    "text": "Cylindrical projections are easily recognized for its shape: maps are rectangular and meridians and parallels are straight lines crossing at right angles. But that is where similarities between the cylindrical projections supported by GMT (Mercator, transverse Mercator, universal transverse Mercator, oblique Mercator, Cassini, cylindrical equidistant, cylindrical equal-area, Miller, and cylindrical stereographic projections) stops. Each have a different way of spacing the meridians and parallels to obtain certain desirable cartographic properties."
+},
+
+{
+    "location": "proj_examples/#Mercator-projection-1",
+    "page": "Map projections",
+    "title": "Mercator projection",
+    "category": "section",
+    "text": "Probably the most famous of the various map projections, the Mercator projection takes its name from the Flemish cartographer Gheert Cremer, better known as Gerardus Mercator, who presented it in 1569. The projection is a cylindrical and conformal, with no distortion along the equator. A major navigational feature of the projection is that a line of constant azimuth is straight. Such a line is called a rhumb line or loxodrome. Thus, to sail from one point to another one only had to connect the points with a straight line, determine the azimuth of the line, and keep this constant course for the entire voyage. The Mercator projection has been used extensively for world maps in which the distortion towards the polar regions grows rather large, thus incorrectly giving the impression that, for example, Greenland is larger than South America. In reality, the latter is about eight times the size of Greenland. Also, the Former Soviet Union looks much bigger than Africa or South America. One may wonder whether this illusion has had any influence on U.S. foreign policy.In the regular Mercator projection, the cylinder touches the globe along the equator. Other orientations like vertical and oblique give rise to the Transverse and Oblique Mercator projections, respectively. We will discuss these generalizations following the regular Mercator projection.The regular Mercator projection requires a minimum of parameters. To use it in GMT programs you supply this information (the first two items are optional and have defaults):Name: merc, Mercator, GMT code -> M (width) m (scale)\nCentral meridian [Middle of your map].\nStandard parallel for true scale [Equator]. When supplied, central meridian must be supplied as well.\nScale along the equator in cm/degree or 1:xxxxx, or map width.Our example presents a world map at a scale of 0.012 inch pr degree which will give a map 4.32 inch wide. It was created with the command:coast(region=(0,360,-70,70), proj=:Mercator, xaxis=(annot=60,ticks=15), yaxis=(annot=30,ticks=15),\n      res=:crude, area=:5000, land=:red, scale=0.03, par=(:MAP_FRAME_TYPE,\"fancy+\"), show=true)(Image: \"GMT_mercator\")While this example is centered on the Dateline, one can easily choose another configuration with the region option. A map centered on Greenwich would specify the region with region=(-180180-7070)"
+},
+
+{
+    "location": "proj_examples/#Transverse-Mercator-projection-1",
+    "page": "Map projections",
+    "title": "Transverse Mercator projection",
+    "category": "section",
+    "text": "The transverse Mercator was invented by Lambert in 1772. In this projection the cylinder touches a meridian along which there is no distortion. The distortion increases away from the central meridian and goes to infinity at 90º from center. The central meridian, each meridian 90º away from the center, and equator are straight lines; other parallels and meridians are complex curves. The projection is defined by specifying:Name: tmerc, transverseMercator, GMT code -> T (width) t (scale)\nThe central meridian.\nOptionally, the latitude of origin (default is the equator).\nScale along the equator in cm/degree or 1:xxxxx, or map width.The optional latitude of origin defaults to Equator if not specified. Although defaulting to 1, you can change the map scale factor via the PROJSCALEFACTOR parameter. Our example shows a transverse Mercator map of south-east Europe and the Middle East with 35ºE as the central meridian:coast(region=\"20/30/50/45r\", proj=(name=:tmerc, center=35), frame=:ag, res=:low,\n      area=250, land=:lightbrown, ocean=:seashell, shore=:thinnest, scale=0.45, show=true)(Image: \"GMT_transverse_merc\")The transverse Mercator can also be used to generate a global map - the equivalent of the 360º Mercator map. Using the commandcoast(region=(0,360,-80,80), proj=(name=:tmerc, center=[330 -45]),\n      frame=(annot=30, grid=:auto, axes=:WSne), res=:crude, area=2000, land=:black,\n      water=:lightblue, figsize=9, show=true)(Image: \"GMT_TM\")we made the map illustrated in figure below. Note that when a world map is given (indicated by region=(0360-8080)), the arguments are interpreted to mean oblique degrees, i.e., the 360º range is understood to mean the extent of the plot along the central meridian, while the “south” and “north” values represent how far from the central longitude we want the plot to extend. These values correspond to latitudes in the regular Mercator projection and must therefore be less than 90."
+},
+
+{
+    "location": "proj_examples/#Universal-Transverse-Mercator-(UTM)-projection-1",
+    "page": "Map projections",
+    "title": "Universal Transverse Mercator (UTM) projection",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "proj_examples/#Oblique-Mercator-projection-1",
+    "page": "Map projections",
+    "title": "Oblique Mercator projection",
+    "category": "section",
+    "text": "Oblique configurations of the cylinder give rise to the oblique Mercator projection. It is particularly useful when mapping regions of large lateral extent in an oblique direction. Both parallels and meridians are complex curves. The projection was developed in the early 1900s by several workers. Several parameters must be provided to define the projection. GMT offers three different definitions:Option -Jo[a|A] or -JO[a|A]:\nName: omerc, obliqueMerc1, GMT code -> Oa (width) oa (scale)\nLongitude and latitude of projection center.\nAzimuth of the oblique equator.\nScale in cm/degree or 1:xxxxx along oblique equator, or map width.\nOption -Jo[b|B] or -JO[b|B]:\nName: omerc2, obliqueMerc2, GMT code -> Ob (width) ob (scale)\nLongitude and latitude of projection center.\nLongitude and latitude of second point on oblique equator.\nScale in cm/degree or 1:xxxxx along oblique equator, or map width.\nOption -Joc|C or -JOc|C:\nName: omercp, obliqueMerc3, GMT code -> Oc (width) oc (scale)\nLongitude and latitude of projection center.\nLongitude and latitude of projection pole.\nScale in cm/degree or 1:xxxxx along oblique equator, or map width.For all three definitions, the upper case A|B|C means we will allow projection poles in the southern hemisphere. These forms are only available when using the GMT letters code. Our example was produced by the commandcoast(region=\"270/20/305/25+r\", proj=(name=:omercp, center=[280 25.5], parallels=[22 69]),\n      frame=:ag, res=:i, area=250, shore=:thinnest, land=:burlywood, water=:azure,\n      rose=\"jTR+w1+f2+l+o0.4\", figsize=12, par=(FONT_TITLE=8, MAP_TITLE_OFFSET=0.12), show=true)(Image: \"GMT_obl_merc\")"
+},
+
+{
+    "location": "proj_examples/#Cassini-cylindrical-projection-1",
+    "page": "Map projections",
+    "title": "Cassini cylindrical projection",
+    "category": "section",
+    "text": "This cylindrical projection was developed in 1745 by César-François Cassini de Thury for the survey of France. It is occasionally called Cassini-Soldner since the latter provided the more accurate mathematical analysis that led to the development of the ellipsoidal formulae. The projection is neither conformal nor equal-area, and behaves as a compromise between the two end-members. The distortion is zero along the central meridian. It is best suited for mapping regions of north-south extent. The central meridian, each meridian 90º away, and equator are straight lines; all other meridians and parallels are complex curves. The requirements to define this projection are:Name: cass, Cassini, GMT code -> C (width) c (scale)\nLongitude and latitude of central point.\nScale in cm/degree or as 1:xxxxx, or map width.A detailed map of the island of Sardinia centered on the 8º45’E meridian using the Cassini projection can be obtained by running the command:coast(region=\"7:30/38:30/10:30/41:30r\", proj=(name=:Cassini, center=[8.75 40]),\n      frame=:afg, map_scale=\"jBR+c40+w100+f+o0.4/0.5\", land=:springgreen,\n      res=:high, water=:azure, shore=:thinnest, rivers=(:all,:thinner), figsize=6,\n      par=(:FONT_LABEL,12), show=true)(Image: \"GMT_cassini\")"
+},
+
+{
+    "location": "proj_examples/#Cylindrical-equidistant-projection-1",
+    "page": "Map projections",
+    "title": "Cylindrical equidistant projection",
+    "category": "section",
+    "text": "This simple cylindrical projection is really a linear scaling of longitudes and latitudes. The most common form is the Plate Carrée projection, where the scaling of longitudes and latitudes is the same. All meridians and parallels are straight lines. The projection can be defined by:Name: eqc, PlateCarree, equidistCylindrical, GMT code -> Q (width) q (scale)\nThe central meridian [Middle of your map].\nStandard parallel [Equator].\nScale in cm/degree or as 1:xxxxx, or map width.The first two of these are optional and have defaults. When the standard parallel is defined, the central meridian must be supplied as well.A world map centered on the dateline using this projection can be obtained by running the command:coast(region=:g, proj=:equidistCylindrical, frame=(annot=60, ticks=30, grid=30),\n      res=:crude, area=5000, land=:tan4, water=:lightcyan, figsize=12, show=true)(Image: \"GMT_equi_cyl\")Different relative scalings of longitudes and latitudes can be obtained by selecting a standard parallel different from the equator. Some selections for standard parallels have practical properties as shown in table:Name lat\nGrafarend and Niermann, minimum linear distortion 61.7º\nRonald Miller Equirectangular 50.5º\nRonald Miller, minimum continental distortion 43.5º\nGrafarend and Niermann 42º\nRonald Miller, minimum overall distortion 37.5º\nPlate Carrée, Simple Cylindrical, Plain/Plane 0º"
+},
+
+{
+    "location": "proj_examples/#Cylindrical-equal-area-projections-1",
+    "page": "Map projections",
+    "title": "Cylindrical equal-area projections",
+    "category": "section",
+    "text": "This cylindrical projection is actually several projections, depending on what latitude is selected as the standard parallel. However, they are all equal area and hence non-conformal. All meridians and parallels are straight lines. The requirements to define this projection are:Name: cea, cylindricalEqualArea, GMT code -> Y (width) y (scale)\nThe central meridian.\nThe standard parallel.\nScale in cm/degree or as 1:xxxxx, or map widthWhile you may choose any value for the standard parallel and obtain your own personal projection, there are seven choices of standard parallels that result in known (or named) projections. These are listed in Table.Name lat\nBalthasart 50º\nGall 45º\nHobo-Dyer 37º30’ (= 37.5º)\nTrystan Edwards 37º24’ (= 37.4º)\nCaster 37º04’ (= 37.0666º)\nBehrman 30º\nLambert 0ºFor instance, a world map centered on the 35ºE meridian using the Behrman projection can be obtained by running the command:coast(region=(-145,215,-90,90), proj=(name=:cylindricalEqualArea, center=(35,30)),\n      frame=(annot=45, grid=45), res=:crude, area=10000, water=:dodgerblue,\n      shore=:thinnest, figsize=12, show=true)(Image: \"GMT_general_cyl\")As one can see there is considerable distortion at high latitudes since the poles map into lines."
+},
+
+{
+    "location": "proj_examples/#Miller-Cylindrical-projection-1",
+    "page": "Map projections",
+    "title": "Miller Cylindrical projection",
+    "category": "section",
+    "text": "This cylindrical projection, presented by Osborn Maitland Miller of the American Geographic Society in 1942, is neither equal nor conformal. All meridians and parallels are straight lines. The projection was designed to be a compromise between Mercator and other cylindrical projections. Specifically, Miller spaced the parallels by using Mercator’s formula with 0.8 times the actual latitude, thus avoiding the singular poles; the result was then divided by 0.8. There is only a spherical form for this projection. Specify the projection by:Name: mill, Miller, GMT code -> J (width) j (scale)\nOptionally, the central meridian (default is the middle of your map).\nScale in cm/degree or as 1:xxxxx, or map width.For instance, a world map centered on the 90ºE meridian at a map scale of 1:400,000,000 can be obtained as follows:coast(region=(-90,270,-80,90), proj=:Miller, xaxis=(annot=45,grid=45),\n      yaxis=(annot=30,grid=30), res=:crude, area=10000, land=:khaki, water=:azure,\n      shore=:thinnest, scale=\"1:400000000\", show=true)(Image: \"GMT_miller\")"
+},
+
+{
+    "location": "proj_examples/#Cylindrical-stereographic-projections-1",
+    "page": "Map projections",
+    "title": "Cylindrical stereographic projections",
+    "category": "section",
+    "text": "The cylindrical stereographic projections are certainly not as notable as other cylindrical projections, but are still used because of their relative simplicity and their ability to overcome some of the downsides of other cylindrical projections, like extreme distortions of the higher latitudes. The stereographic projections are perspective projections, projecting the sphere onto a cylinder in the direction of the antipodal point on the equator. The cylinder crosses the sphere at two standard parallels, equidistant from the equator. The projections are defined by:Name: cyl_stere, cylindricalStereographic, GMT code -> Cyl_stere (width) cyl_stere (scale)\nThe central meridian (uses the middle of the map when omitted).\nThe standard parallel (default is the Equator). When used, central meridian needs to be given as well.\nScale in cm/degree or as 1:xxxxx, or map widthSome of the selections of the standard parallel are named for the cartographer or publication that popularized the projectionName lat\nMiller’s modified Gall 66.159467º\nKamenetskiy’s First 55º\nGall’s stereographic 45º\nBolshoi Sovietskii Atlas Mira or Kamenetskiy’s Second 30º\nBraun’s cylindrical 0ºA map of the world, centered on the Greenwich meridian, using the Gall’s stereographic projection (standard parallel is 45º, Figure Gall’s stereographic projection), is obtained as follows:coast(region=(-180,180,-60,80), proj=(name=:cylindricalStereographic, center=(0,45)),\n      xaxis=(annot=60,ticks=30, grid=30), yaxis=(annot=30,grid=30), res=:crude,\n      area=5000, shore=:black, land=:seashell4, ocean=:antiquewhite1, figsize=12, show=true)(Image: \"GMT_gall_stereo\")"
+},
+
+{
+    "location": "proj_examples/#Miscellaneous-projections-1",
+    "page": "Map projections",
+    "title": "Miscellaneous projections",
+    "category": "section",
+    "text": "GMT supports 8 common projections for global presentation of data or models. These are the Hammer, Mollweide, Winkel Tripel, Robinson, Eckert IV and VI, Sinusoidal, and Van der Grinten projections. Due to the small scale used for global maps these projections all use the spherical approximation rather than more elaborate elliptical formulae.In all cases, the specification of the central meridian can be skipped. The default is the middle of the longitude range of the plot, specified by the (region) option."
+},
+
+{
+    "location": "proj_examples/#Hammer-projection-1",
+    "page": "Map projections",
+    "title": "Hammer projection",
+    "category": "section",
+    "text": "The equal-area Hammer projection, first presented by the German mathematician Ernst von Hammer in 1892, is also known as Hammer-Aitoff (the Aitoff projection looks similar, but is not equal-area). The border is an ellipse, equator and central meridian are straight lines, while other parallels and meridians are complex curves. The projection is defined by selecting:Name: hamm, Hammer, GMT code -> H (width) h (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.A view of the Pacific ocean using the Dateline as central meridian is accomplished thuscoast(region=:g, proj=:Hammer, frame=:g, res=:crude, area=10000, land=:black,\n	  ocean=:cornsilk, figsize=12, show=true)(Image: \"GMT_hammer\")"
+},
+
+{
+    "location": "proj_examples/#Mollweide-projection-1",
+    "page": "Map projections",
+    "title": "Mollweide projection",
+    "category": "section",
+    "text": "This pseudo-cylindrical, equal-area projection was developed by the German mathematician and astronomer Karl Brandan Mollweide in 1805. Parallels are unequally spaced straight lines with the meridians being equally spaced elliptical arcs. The scale is only true along latitudes 4044’ north and south. The projection is used mainly for global maps showing data distributions. It is occasionally referenced under the name homalographic projection. Like the Hammer projection, outlined above, we need to specify only two parameters to completely define the mapping of longitudes and latitudes into rectangular x/y coordinates:Name: moll, Mollweide, GMT code -> W (width) w (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.An example centered on Greenwich can be generated thus:coast(region=:d, proj=:Mollweide, frame=:g, res=:crude, area=10000, land=:tomato1,\n	  water=:skyblue, figsize=12, show=true)(Image: \"GMT_mollweide\")"
+},
+
+{
+    "location": "proj_examples/#Winkel-Tripel-projection-1",
+    "page": "Map projections",
+    "title": "Winkel Tripel projection",
+    "category": "section",
+    "text": "In 1921, the German mathematician Oswald Winkel a projection that was to strike a compromise between the properties of three elements (area, angle and distance). The German word “tripel” refers to this junction of where each of these elements are least distorted when plotting global maps. The projection was popularized when Bartholomew and Son started to use it in its world-renowned “The Times Atlas of the World” in the mid 20th century. In 1998, the National Geographic Society made the Winkel Tripel as its map projection of choice for global maps.Naturally, this projection is neither conformal, nor equal-area. Central meridian and equator are straight lines; other parallels and meridians are curved. The projection is obtained by averaging the coordinates of the Equidistant Cylindrical and Aitoff (not Hammer-Aitoff) projections. The poles map into straight lines 0.4 times the length of equator. To use it you must enterName: win, Winkel, GMT code -> R (width) r (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.Centered on Greenwich, the example in Figure Winkel Tripel projection was created by this command:coast(region=:d, proj=:Winkel, frame=:g, res=:crude, area=10000, land=:burlywood4,\n	  water=:wheat1, figsize=12, show=true)(Image: \"GMT_winkel\")"
+},
+
+{
+    "location": "proj_examples/#Robinson-projection-1",
+    "page": "Map projections",
+    "title": "Robinson projection",
+    "category": "section",
+    "text": "The Robinson projection, presented by the American geographer and cartographer Arthur H. Robinson in 1963, is a modified cylindrical projection that is neither conformal nor equal-area. Central meridian and all parallels are straight lines; other meridians are curved. It uses lookup tables rather than analytic expressions to make the world map “look” right [22]. The scale is true along latitudes 38. The projection was originally developed for use by Rand McNally and is currently used by the National Geographic Society. To use it you must enterName: robin, Robinson, GMT code -> N (width) n (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.Again centered on Greenwich, the example below was created by this command:coast(region=:d, proj=:Robinson, frame=:g, res=:crude, area=10000, land=:goldenrod,\n	  water=:snow2, figsize=12, show=true)(Image: \"GMT_robinson\")"
+},
+
+{
+    "location": "proj_examples/#Eckert-IV-and-VI-projection-1",
+    "page": "Map projections",
+    "title": "Eckert IV and VI projection",
+    "category": "section",
+    "text": "The Eckert IV and VI projections, presented by the German cartographer Max Eckert-Greiffendorff in 1906, are pseudo-cylindrical equal-area projections. Central meridian and all parallels are straight lines; other meridians are equally spaced elliptical arcs (IV) or sinusoids (VI). The scale is true along latitudes 40º30’ (IV) and 49º16’ (VI). Their main use is in thematic world maps. To select Eckert IV you must use EckertIV while Eckert VI is selected with EckertVI. If no modifier is given it defaults to Eckert VI. In addition, you must enterName: eck4, EckertIV, GMT code -> Kf (width) kf (scale)\nName: eck6, EckertVI, GMT code -> Ks (width) ks (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.Centered on the Dateline, the Eckert IV example below was created by this command:coast(region=:d, proj=:EckertIV, frame=:g, res=:crude, area=10000, land=:ivory,\n	  water=:bisque3, shore=:thinnest, figsize=12, show=true)(Image: \"GMT_eckert4\")The same script, EckertVI instead of EckertIV, yields the Eckert VI map:coast(region=:d, proj=:EckertVI, frame=:g, res=:crude, area=10000, land=:ivory,\n	  water=:bisque3, shore=:thinnest, figsize=12, show=true)(Image: \"GMT_eckert6\")"
+},
+
+{
+    "location": "proj_examples/#Sinusoidal-projection-1",
+    "page": "Map projections",
+    "title": "Sinusoidal projection",
+    "category": "section",
+    "text": "The sinusoidal projection is one of the oldest known projections, is equal-area, and has been used since the mid-16th century. It has also been called the “Equal-area Mercator” projection. The central meridian is a straight line; all other meridians are sinusoidal curves. Parallels are all equally spaced straight lines, with scale being true along all parallels (and central meridian). To use it, you need to select:Name: sinu, Sinusoidal, GMT code -> I (width) i (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.A simple world map using the sinusoidal projection is therefore obtained bycoast(region=:d, proj=:Sinusoidal, xaxis=(grid=30,), yaxis=(grid=15,), res=:crude,\n      area=10000, land=:coral4, water=:azure3, figsize=12, show=true)(Image: \"GMT_sinusoidal\")To reduce distortion of shape the interrupted sinusoidal projection was introduced in 1927. Here, three symmetrical segments are used to cover the entire world. Traditionally, the interruptions are at 160ºW, 20ºW, and 60ºE. To make the interrupted map we must call coast for each segment and superpose the results. To produce an interrupted world map (with the traditional boundaries just mentioned) that is 5.04 inches wide we use the scale 12/360 = 0.03333 and offset the subsequent plots horizontally by their widths (140 * 0.03333 and 80 * 0.03333):coast(region=(200,340,-90,90), proj=:Sinusoidal, frame=:g, res=:crude, area=10000,\n      land=:darkred, water=:azure, scale=0.03333)\ncoast!(region=(-20,60,-90,90), frame=:g, res=:crude, area=10000, land=:darkgreen,\n       water=:azure, xoff=4.666, scale=0.03333)\ncoast!(region=(60,200,-90,90), frame=:g, res=:crude, area=10000, land=:darkblue,\n       water=:azure, xoff=2.6664, scale=0.03333, show=true)(Image: \"GMT_sinus_int\")The usefulness of the interrupted sinusoidal projection is basically limited to display of global, discontinuous data distributions like hydrocarbon and mineral resources, etc."
+},
+
+{
+    "location": "proj_examples/#Van-der-Grinten-projection-1",
+    "page": "Map projections",
+    "title": "Van der Grinten projection",
+    "category": "section",
+    "text": "The Van der Grinten projection, presented by Alphons J. van der Grinten in 1904, is neither equal-area nor conformal. Central meridian and Equator are straight lines; other meridians are arcs of circles. The scale is true along the Equator only. Its main use is to show the entire world enclosed in a circle. To use it you must enterName: vand, VanderGrinten, GMT code -> V (width) v (scale)\nThe central meridian [Middle of your map].\nScale along equator in cm/degree or 1:xxxxx, or map width.Centered on the Dateline, the example below was created by this command:coast(region=:g, proj=:VanderGrinten, xaxis=(grid=30,), yaxis=(grid=15,),res=:crude,\n      land=:lightgray, water=:cornsilk, area=10000, shore=:thinnest, figsize=10, show=true)(Image: \"GMT_grinten\")"
 },
 
 {
@@ -869,7 +1157,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Index",
     "title": "GMT.coast",
     "category": "function",
-    "text": "coast(cmd0::String=\"\"; clip=[], kwargs...)\n\nPlot continents, shorelines, rivers, and borders on maps. Plots grayshaded, colored, or textured land-masses [or water-masses] on maps and [optionally] draws coastlines, rivers, and political boundaries. A map projection must be supplied.\n\nFull option list at pscoast\n\nParameters\n\nJ : proj : – ::String –\nSelect map projection. Defaults to 12x8 cm with linear (non-projected) maps.   -J\nR : region : limits : – Str or list or GMTgrid|image –		Flags = xminxmaxyminymax+r+uunit\nSpecify the region of interest. Set to data minimum BoundinBox if not provided.   -R\nA : area : – Str or Number –\nFeatures with an area smaller than minarea in km^2 or of   hierarchical level that is lower than minlevel or higher than   max_level will not be plotted.   -A\nB : axis : – Str – \nSet map boundary frame and axes attributes.   -B\nC : river_fill : – Str –\nSet the shade, color, or pattern for lakes and river-lakes.   -C\nD : res : resolution : – Str –		Flags = c|l|i|h|f|a\nSelects the resolution of the data set to use ((f)ull, (h)igh, (i)ntermediate, (l)ow, (c)rude), or (a)uto).   -D\nE : DCW : – Str –\nSelect painting or dumping country polygons from the Digital Chart of the World.   -E\nTuple(\"code\", Str); Tuple(\"code\" [,\"fill\"], (pen)); Tuple((...),(...),...)\nex: (\"PT\",(0.5,\"red\",\"–\")); ((\"PT\",\"gblue\",(0.5,\"red\"),(\"ES\",(0.5,\"yellow\")))\nF : box : – Str –\nDraws a rectangular border around the map scale or rose.   -F\nG : land : – Str –\nSelect filling or clipping of “dry” areas.   -G\nI : rivers : – Str –\nDraw rivers. Specify the type of rivers and [optionally] append pen attributes.   -I\nL : map_scale : – Str –\nDraw a map scale.   -L\nM : dump : – Str –\nDumps a single multisegment ASCII output. No plotting occurs.   -M\nN : borders : – Str –\nDraw political boundaries. Specify the type of boundary and [optionally] append pen attributes   -N\nP : portrait : –- Bool or [] –\nTell GMT to NOT draw in portriat mode (that is, make a Landscape plot)\nclip : – Str –		Flags = land|water|end\nTo clip land do clip=:land, clip=:water clips water. Use end to mark end of existing clip path.   No projection information is needed.   -Q\nS : water : – Str –\nSelect filling or clipping of “wet” areas.   -S\nTd : rose` : – Str –\nDraws a map directional rose on the map at the location defined by the reference and anchor points.   -Td\nTm : compass : – Str –\nDraws a map magnetic rose on the map at the location defined by the reference and anchor points.   -Tm\nU : stamp : – Str or Bool or [] –	Flags = [[just]/dx/dy/][c|label]\nDraw GMT time stamp logo on plot.   -U\nV : verbose : – Bool or Str –		Flags = level\nSelect verbosity level, which will send progress reports to stderr.   -V\nW : shore : – Str –   Draw shorelines [Default is no shorelines]. Append pen attributes.   -W\nX : x_offset : – Str –     Flags = acfrx-shiftu\nY : y_offset : – Str –     Flags = acfry-shiftu\nShift plot origin relative to the current origin by (x-shift,y-shift) and optionally   append the length unit (c, i, or p).    -Y\nbo : binary_out : – Str –			Flags = ncolstypew+L+B\nSelect native binary output.   -bo\np : view : perspective : – Str or List –   Flags = [x|y|z]azim[/elev[/zlevel]][+wlon0/lat0[/z0]][+vx0/y0]\nSelects perspective view and sets the azimuth and elevation of the viewpoint [180/90].   -p\nt : alpha : transparency : – Str –   Flags = transp\nSet PDF transparency level for an overlay, in (0-100] percent range. [Default is 0, i.e., opaque].   -t\n\n\n\n\n\n"
+    "text": "coast(cmd0::String=\"\"; clip=[], kwargs...)\n\nPlot continents, shorelines, rivers, and borders on maps. Plots grayshaded, colored, or textured land-masses [or water-masses] on maps and [optionally] draws coastlines, rivers, and political boundaries. A map projection must be supplied.\n\nFull option list at pscoast\n\nParameters\n\nJ : proj : – ::String –\nSelect map projection. Defaults to 12x8 cm with linear (non-projected) maps.   -J\nR : region : limits : – Str or list or GMTgrid|image –		Flags = xminxmaxyminymax+r+uunit\nSpecify the region of interest. Set to data minimum BoundinBox if not provided.   -R\nA : area : – Str or Number –\nFeatures with an area smaller than minarea in km^2 or of   hierarchical level that is lower than minlevel or higher than   max_level will not be plotted.   -A\nB : axis : – Str – \nSet map boundary frame and axes attributes.   -B\nC : river_fill : – Str –\nSet the shade, color, or pattern for lakes and river-lakes.   -C\nD : res : resolution : – Str –		Flags = c|l|i|h|f|a\nSelects the resolution of the data set to use ((f)ull, (h)igh, (i)ntermediate, (l)ow, (c)rude), or (a)uto).   -D\nE : DCW : – Str –\nSelect painting or dumping country polygons from the Digital Chart of the World.   -E\nTuple(\"code\", Str); Tuple(\"code\" [,\"fill\"], (pen)); Tuple((...),(...),...)\nex: (\"PT\",(0.5,\"red\",\"–\")); ((\"PT\",\"gblue\",(0.5,\"red\"),(\"ES\",(0.5,\"yellow\")))\nF : box : – Str –\nDraws a rectangular border around the map scale or rose.   -F\nG : land : – Str –\nSelect filling or clipping of “dry” areas.   -G\nI : rivers : – Str –\nDraw rivers. Specify the type of rivers and [optionally] append pen attributes.   -I\nL : map_scale : – Str –\nDraw a map scale.   -L\nM : dump : – Str –\nDumps a single multisegment ASCII output. No plotting occurs.   -M\nN : borders : – Str –\nDraw political boundaries. Specify the type of boundary and [optionally] append pen attributes   -N\nP : portrait : –- Bool or [] –\nTell GMT to NOT draw in portriat mode (that is, make a Landscape plot)\nclip : – Str –		Flags = land|water|end\nTo clip land do clip=:land, clip=:water clips water. Use end to mark end of existing clip path.   No projection information is needed.   -Q\nS : water : ocean : – Str –\nSelect filling or clipping of “wet” areas.   -S\nTd : rose` : – Str –\nDraws a map directional rose on the map at the location defined by the reference and anchor points.   -Td\nTm : compass : – Str –\nDraws a map magnetic rose on the map at the location defined by the reference and anchor points.   -Tm\nU : stamp : – Str or Bool or [] –	Flags = [[just]/dx/dy/][c|label]\nDraw GMT time stamp logo on plot.   -U\nV : verbose : – Bool or Str –		Flags = level\nSelect verbosity level, which will send progress reports to stderr.   -V\nW : shore : – Str –   Draw shorelines [Default is no shorelines]. Append pen attributes.   -W\nX : x_offset : – Str –     Flags = acfrx-shiftu\nY : y_offset : – Str –     Flags = acfry-shiftu\nShift plot origin relative to the current origin by (x-shift,y-shift) and optionally   append the length unit (c, i, or p).    -Y\nbo : binary_out : – Str –			Flags = ncolstypew+L+B\nSelect native binary output.   -bo\np : view : perspective : – Str or List –   Flags = [x|y|z]azim[/elev[/zlevel]][+wlon0/lat0[/z0]][+vx0/y0]\nSelects perspective view and sets the azimuth and elevation of the viewpoint [180/90].   -p\nt : alpha : transparency : – Str –   Flags = transp\nSet PDF transparency level for an overlay, in (0-100] percent range. [Default is 0, i.e., opaque].   -t\n\n\n\n\n\n"
 },
 
 {
