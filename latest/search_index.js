@@ -1,7 +1,7 @@
 var documenterSearchIndex = {"docs": [
 
 {
-    "location": "usage/#",
+    "location": "usage.html#",
     "page": "Introduction",
     "title": "Introduction",
     "category": "page",
@@ -9,7 +9,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "usage/#Introduction-1",
+    "location": "usage.html#Introduction-1",
     "page": "Introduction",
     "title": "Introduction",
     "category": "section",
@@ -17,7 +17,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "examples/#",
+    "location": "examples.html#",
     "page": "Some examples",
     "title": "Some examples",
     "category": "page",
@@ -25,7 +25,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "examples/#Examples-1",
+    "location": "examples.html#Examples-1",
     "page": "Some examples",
     "title": "Examples",
     "category": "section",
@@ -33,55 +33,55 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "examples/#Here\'s-the-\"Hello-World\"-1",
+    "location": "examples.html#Here\'s-the-\"Hello-World\"-1",
     "page": "Some examples",
     "title": "Here\'s the \"Hello World\"",
     "category": "section",
-    "text": "using GMT\nplot(1:10, rand(10), lw=1, lc=:blue, fmt=:png, marker=:square,\n     markeredgecolor=0, size=0.2, markerfacecolor=:red, title=\"Hello World\",\n     xlabel=\"Spoons\", ylabel=\"Forks\", show=true)(Image: \"Hello world\")A few notes about this example. Because we didn\'t specify the figure size (with the figsize keyword) a default value of 12x8 cm (not counting labels and title) was used. The fmt=png selected the PNG format. The show=true is needed to show the image at the end.But now we want an image made up with two layers of data. And we are going to plot on the sphere (the Earth). For that we will need to use the coast program to plot the Earth and append some curvy lines."
+    "text": "using GMT\nplot(1:10, rand(10), lw=1, lc=:blue, fmt=:png, marker=:square,\n     markeredgecolor=0, size=0.2, markerfacecolor=:red, title=\"Hello World\",\n     xlabel=\"Spoons\", ylabel=\"Forks\", show=true)<img src=\"../figures/hello-world.png\" alt=\"Hello world\" width=\"500\" class=\"center\"/>A few notes about this example. Because we didn\'t specify the figure size (with the figsize keyword) a default value of 12x8 cm (not counting labels and title) was used. The fmt=png selected the PNG format. The show=true is needed to show the image at the end.But now we want an image made up with two layers of data. And we are going to plot on the sphere (the Earth). For that we will need to use the coast program to plot the Earth and append some curvy lines."
 },
 
 {
-    "location": "examples/#And-the-\"Hello-Round-World\"-1",
+    "location": "examples.html#And-the-\"Hello-Round-World\"-1",
     "page": "Some examples",
     "title": "And the \"Hello Round World\"",
     "category": "section",
-    "text": "x = range(0, stop=2pi, length=180);       seno = sin.(x/0.2)*45;\ncoast(region=[0 360 -90 90], proj=(name=:laea, center=(300,30)), frame=:g,\n      res=:crude, land=:navy, figsize=6)\n\nplot!(collect(x)*60, seno, lw=0.5, lc=:red, fmt=:png, marker=:circle,\n      markeredgecolor=0, size=0.05, markerfacecolor=:cyan, show=true)In this example region=[0 360 -90 90]  means the domain is the whole Earth, axis=:g sets the grid on, resolution=:c selects the crude coast lines resolution and the  land=:navy paints the continents with a navy blue color. More complex is the proj=\"A300/30/6c\" argument that selects the map projection, which is a Lambert projection with projection center at 300 degrees East, 0 degrees North. The 6c sets the map width of 6 centimeters.(Image: \"Hello round world\")Note that now the first command, the coast, does not have the show keyword. It means we are here creating the first layer but we don\'t want to see it just yet. The second command uses the ! variation of the plot function, which means that we are appending to a previous plot, and uses the show=true because we are done with this figure."
+    "text": "x = range(0, stop=2pi, length=180);       seno = sin.(x/0.2)*45;\ncoast(region=[0 360 -90 90], proj=(name=:laea, center=(300,30)), frame=:g,\n      res=:crude, land=:navy, figsize=6)\n\nplot!(collect(x)*60, seno, lw=0.5, lc=:red, fmt=:png, marker=:circle,\n      markeredgecolor=0, size=0.05, markerfacecolor=:cyan, show=true)In this example region=[0 360 -90 90]  means the domain is the whole Earth, frame=:g sets the grid on, resolution=:c selects the crude coast lines resolution and the  land=:navy paints the continents with a navy blue color. The map projection used here is a Lambert projection (laea stands for Lambert Azimuthal Equal Area) with projection center at 300 degrees East, 30 degrees North.<img src=\"../figures/hello-round-world.png\" alt=\"Hello round world\" width=\"500\" class=\"center\"/>Note that now the first command, the coast, does not have the show keyword. It means we are here creating the first layer but we don\'t want to see it just yet. The second command uses the ! variation of the plot function, which means that we are appending to a previous plot, and uses the show=true because we are done with this figure."
 },
 
 {
-    "location": "examples/#Simple-contours-1",
+    "location": "examples.html#Simple-contours-1",
     "page": "Some examples",
     "title": "Simple contours",
     "category": "section",
-    "text": "Contours are created with grdcontour that takes a grid as input (or a GMTgrid data type). This example shows uses the peaks function to create a classical example. Note, however, that the memory consumption in this example, when creating the plot, is much lower than traditional likewise  examples because we will be using only one 2D array instead of 3 3D arrays (ref). In the example cont=1 and annot=2 means draw contours at every 1 unit of the G grid and annotate at every other contour line. axis=\"a\" means pick a default automatic annotation and labeling for the axis.G = GMT.peaks();\ngrdcontour(G, cont=1, annot=2, fmt=:png, show=true)(Image: \"Simple black&white contour\")Now with colored contours. To make it colored we need to generate a color map and use it. Notice that we must specify a pen attribute to get the colored contours because pen specifications are always set separately. Here we will create first a colormap with makecpt that will from -6 to 8 with steps of 1. These values are picked up after the z values of the G grid. cpt = makecpt(range=(-6,8,1));      # Create the color map\ngrdcontour(G, fmt=:png, color=cpt, pen=\"+c\", show=1)(Image: \"Simple color contour\")"
+    "text": "Contours are created with grdcontour that takes a grid as input (or a GMTgrid data type). This example shows uses the peaks function to create a classical example. Note, however, that the memory consumption in this example, when creating the plot, is much lower than traditional likewise  examples because we will be using only one 2D array instead of 3 3D arrays (ref). In the example cont=1 and annot=2 means draw contours at every 1 unit of the G grid and annotate at every other contour line. axis=\"a\" means pick a default automatic annotation and labeling for the axis.G = GMT.peaks();\ngrdcontour(G, cont=1, annot=2, fmt=:png, show=true)<img src=\"../figures/hello-bw-contour.png\" alt=\"Simple black&white contour\" width=\"500\" class=\"center\"/>Now with colored contours. To make it colored we need to generate a color map and use it. Notice that we must specify a pen attribute to get the colored contours because pen specifications are always set separately. Here we will create first a colormap with makecpt that will from -6 to 8 with steps of 1. These values are picked up after the z values of the G grid. cpt = makecpt(range=(-6,8,1));      # Create the color map\ngrdcontour(G, fmt=:png, color=cpt, pen=\"+c\", show=1)<img src=\"../figures/hello-color-contour.png\" alt=\"Simple color contour\" width=\"500\" class=\"center\"/>"
 },
 
 {
-    "location": "examples/#Color-images-1",
+    "location": "examples.html#Color-images-1",
     "page": "Some examples",
     "title": "Color images",
     "category": "section",
-    "text": "Color images are made with grdimage which takes the usual common options and a color map. It operates over grids or images. The next example shows how to create a color appropriate for the grid\'s z range, plot the image and add a color scale. We use here the data keyword to tell the program to load the grid from a file. The  before the tut_relief.nc file name instructs GMT to download the file from its server on the first usage and save it in a cache dir. See the GMT tuturial for more details about what the arguments mean.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdimage(\"@tut_relief.nc\", shade=\"+ne0.8+a100\", proj=\"M12c\", axis=:a, color=topo)\ncolorbar!(position=\"jTC+w5i/0.25i+h+o0/-1i\", region=[-108 -103 35 40], color=topo,\n          proj=[], frame=\"y+lm\", fmt=:jpg, show=true)(Image: \"Hello shaded world\")"
+    "text": "Color images are made with grdimage which takes the usual common options and a color map. It operates over grids or images. The next example shows how to create a color appropriate for the grid\'s z range, plot the image and add a color scale. We use here the data keyword to tell the program to load the grid from a file. The  before the tut_relief.nc file name instructs GMT to download the file from its server on the first usage and save it in a cache dir. See the GMT tuturial for more details about what the arguments mean.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdimage(\"@tut_relief.nc\", shade=\"+ne0.8+a100\", proj=:Mercator, frame=:a, color=topo)\ncolorbar!(position=\"jTC+w5i/0.25i+h+o0/-1i\", region=[-108 -103 35 40], color=topo,\n          proj=[], frame=\"y+lm\", fmt=:jpg, show=true)<img src=\"../figures/hello-shaded-world.jpg\" alt=\"Hello shaded world\" width=\"500\" class=\"center\"/>"
 },
 
 {
-    "location": "examples/#Perspective-view-1",
+    "location": "examples.html#Perspective-view-1",
     "page": "Some examples",
     "title": "Perspective view",
     "category": "section",
-    "text": "We will make a perspective, color-coded view of the US Rockies from the southeast.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdview(\"@tut_relief.nc\", proj=\"M12c\", JZ=\"1c\", shade=\"+ne0.8+a100\", view=(135,30),\n        frame=:a, fmt=:jpg, color=topo, Q=\"i100\", show=true)(Image: \"Hello 3D view world\")Above we used the Peaks function to create a contour plot. Let us use that grid again and display it this time as 3D bar plot in a perspective view. cmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)(Image: \"Hello bar3D\")"
+    "text": "We will make a perspective, color-coded view of the US Rockies from the southeast.topo = makecpt(color=:rainbow, range=(1000,5000,500), continuous=true);\ngrdview(\"@tut_relief.nc\", proj=:Mercator, JZ=\"1c\", shade=\"+ne0.8+a100\", view=(135,30),\n        frame=:a, fmt=:jpg, color=topo, Q=\"i100\", show=true)<img src=\"../figures/hello-view-world.jpg\" alt=\"Hello 3D view world\" width=\"600\" class=\"center\"/>Above we used the Peaks function to create a contour plot. Let us use that grid again and display it this time as 3D bar plot in a perspective view. cmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)<img src=\"../figures/bar3-peaks.png\" alt=\"Hello bar3D\" width=\"500\" class=\"center\"/>"
 },
 
 {
-    "location": "examples/#Warp-image-in-geographical-projection-1",
+    "location": "examples.html#Warp-image-in-geographical-projection-1",
     "page": "Some examples",
     "title": "Warp image in geographical projection",
     "category": "section",
-    "text": "In this example we will load a network image (GDAL will do that for us) and make a creative world map. First command, the imshow, needs to set show=false to no display the image before it is complete. We have to do this because imshow is a one command only shot and so, by default, it has the show keyword hardwire to true.imshow(\"http://larryfire.files.wordpress.com/2009/07/untooned_jessicarabbit.jpg\",\n      frame=:g, region=:d, proj=:Sinusoidal, image_in=:r, show=false)\ncoast!(shore=(1,:white), resolution=:c, figsize=15, fmt=:png, show=true)(Image: SinuJessica)"
+    "text": "In this example we will load a network image (GDAL will do that for us) and make a creative world map. First command, the imshow, needs to set show=false to no display the image before it is complete. We have to do this because imshow is a one command only shot and so, by default, it has the show keyword hardwire to true.imshow(\"http://larryfire.files.wordpress.com/2009/07/untooned_jessicarabbit.jpg\",\n      frame=:g, region=:d, proj=:Sinusoidal, image_in=:r, show=false)\ncoast!(shore=(1,:white), resolution=:c, figsize=15, fmt=:png, show=true)<img src=\"http://w3.ualg.pt/~jluis/jessy.png\" alt=\"SinuJessica\" width=\"600\" class=\"center\"/>"
 },
 
 {
-    "location": "rectangles/#",
+    "location": "rectangles.html#",
     "page": "Draw rectangles examples",
     "title": "Draw rectangles examples",
     "category": "page",
@@ -89,7 +89,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "rectangles/#Draw-rectangles-1",
+    "location": "rectangles.html#Draw-rectangles-1",
     "page": "Draw rectangles examples",
     "title": "Draw rectangles",
     "category": "section",
@@ -97,7 +97,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "rectangles/#Simple-filled-rectangle-1",
+    "location": "rectangles.html#Simple-filled-rectangle-1",
     "page": "Draw rectangles examples",
     "title": "Simple filled rectangle",
     "category": "section",
@@ -105,7 +105,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "rectangles/#Rectangles-with-patterns-1",
+    "location": "rectangles.html#Rectangles-with-patterns-1",
     "page": "Draw rectangles examples",
     "title": "Rectangles with patterns",
     "category": "section",
@@ -113,7 +113,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "rectangles/#Rectangles-with-transparency-1",
+    "location": "rectangles.html#Rectangles-with-transparency-1",
     "page": "Draw rectangles examples",
     "title": "Rectangles with transparency",
     "category": "section",
@@ -121,7 +121,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#",
+    "location": "frames.html#",
     "page": "Draw frames examples",
     "title": "Draw frames examples",
     "category": "page",
@@ -129,7 +129,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Draw-Frames-1",
+    "location": "frames.html#Draw-Frames-1",
     "page": "Draw frames examples",
     "title": "Draw Frames",
     "category": "section",
@@ -137,7 +137,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Geographic-basemaps-1",
+    "location": "frames.html#Geographic-basemaps-1",
     "page": "Draw frames examples",
     "title": "Geographic basemaps",
     "category": "section",
@@ -145,7 +145,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Cartesian-linear-axes-1",
+    "location": "frames.html#Cartesian-linear-axes-1",
     "page": "Draw frames examples",
     "title": "Cartesian linear axes",
     "category": "section",
@@ -153,7 +153,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Cartesian-log10-axes-1",
+    "location": "frames.html#Cartesian-log10-axes-1",
     "page": "Draw frames examples",
     "title": "Cartesian log10 axes",
     "category": "section",
@@ -161,7 +161,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Cartesian-exponential-axes-1",
+    "location": "frames.html#Cartesian-exponential-axes-1",
     "page": "Draw frames examples",
     "title": "Cartesian exponential axes",
     "category": "section",
@@ -169,7 +169,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Cartesian-time-axes-1",
+    "location": "frames.html#Cartesian-time-axes-1",
     "page": "Draw frames examples",
     "title": "Cartesian time axes",
     "category": "section",
@@ -177,7 +177,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "frames/#Custom-axes-1",
+    "location": "frames.html#Custom-axes-1",
     "page": "Draw frames examples",
     "title": "Custom axes",
     "category": "section",
@@ -185,7 +185,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#",
+    "location": "proj_examples.html#",
     "page": "Map projections",
     "title": "Map projections",
     "category": "page",
@@ -193,7 +193,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#GMT-Map-Projections-1",
+    "location": "proj_examples.html#GMT-Map-Projections-1",
     "page": "Map projections",
     "title": "GMT Map Projections",
     "category": "section",
@@ -201,7 +201,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Conic-projections-1",
+    "location": "proj_examples.html#Conic-projections-1",
     "page": "Map projections",
     "title": "Conic projections",
     "category": "section",
@@ -209,7 +209,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Albers-conic-equal-area-projection-1",
+    "location": "proj_examples.html#Albers-conic-equal-area-projection-1",
     "page": "Map projections",
     "title": "Albers conic equal-area projection",
     "category": "section",
@@ -217,7 +217,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Equidistant-conic-1",
+    "location": "proj_examples.html#Equidistant-conic-1",
     "page": "Map projections",
     "title": "Equidistant conic",
     "category": "section",
@@ -225,7 +225,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Lambert-conic-conformal-1",
+    "location": "proj_examples.html#Lambert-conic-conformal-1",
     "page": "Map projections",
     "title": "Lambert conic conformal",
     "category": "section",
@@ -233,7 +233,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#(American)-polyconic-projection-1",
+    "location": "proj_examples.html#(American)-polyconic-projection-1",
     "page": "Map projections",
     "title": "(American) polyconic projection",
     "category": "section",
@@ -241,7 +241,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Azimuthal-projections-1",
+    "location": "proj_examples.html#Azimuthal-projections-1",
     "page": "Map projections",
     "title": "Azimuthal projections",
     "category": "section",
@@ -249,7 +249,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Lambert-Azimuthal-Equal-Area-1",
+    "location": "proj_examples.html#Lambert-Azimuthal-Equal-Area-1",
     "page": "Map projections",
     "title": "Lambert Azimuthal Equal-Area",
     "category": "section",
@@ -257,7 +257,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Rectangular-map-1",
+    "location": "proj_examples.html#Rectangular-map-1",
     "page": "Map projections",
     "title": "Rectangular map",
     "category": "section",
@@ -265,7 +265,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Hemisphere-map-1",
+    "location": "proj_examples.html#Hemisphere-map-1",
     "page": "Map projections",
     "title": "Hemisphere map",
     "category": "section",
@@ -273,7 +273,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Stereographic-Equal-Angle-1",
+    "location": "proj_examples.html#Stereographic-Equal-Angle-1",
     "page": "Map projections",
     "title": "Stereographic Equal-Angle",
     "category": "section",
@@ -281,7 +281,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Polar-Stereographic-Map-1",
+    "location": "proj_examples.html#Polar-Stereographic-Map-1",
     "page": "Map projections",
     "title": "Polar Stereographic Map",
     "category": "section",
@@ -289,7 +289,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Rectangular-stereographic-map-1",
+    "location": "proj_examples.html#Rectangular-stereographic-map-1",
     "page": "Map projections",
     "title": "Rectangular stereographic map",
     "category": "section",
@@ -297,7 +297,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#General-stereographic-map-1",
+    "location": "proj_examples.html#General-stereographic-map-1",
     "page": "Map projections",
     "title": "General stereographic map",
     "category": "section",
@@ -305,7 +305,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Perspective-projection-1",
+    "location": "proj_examples.html#Perspective-projection-1",
     "page": "Map projections",
     "title": "Perspective projection",
     "category": "section",
@@ -313,7 +313,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Orthographic-projection-1",
+    "location": "proj_examples.html#Orthographic-projection-1",
     "page": "Map projections",
     "title": "Orthographic projection",
     "category": "section",
@@ -321,7 +321,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Azimuthal-Equidistant-projection-1",
+    "location": "proj_examples.html#Azimuthal-Equidistant-projection-1",
     "page": "Map projections",
     "title": "Azimuthal Equidistant projection",
     "category": "section",
@@ -329,7 +329,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Gnomonic-projection-1",
+    "location": "proj_examples.html#Gnomonic-projection-1",
     "page": "Map projections",
     "title": "Gnomonic projection",
     "category": "section",
@@ -337,7 +337,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Cylindrical-projections-1",
+    "location": "proj_examples.html#Cylindrical-projections-1",
     "page": "Map projections",
     "title": "Cylindrical projections",
     "category": "section",
@@ -345,7 +345,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Mercator-projection-1",
+    "location": "proj_examples.html#Mercator-projection-1",
     "page": "Map projections",
     "title": "Mercator projection",
     "category": "section",
@@ -353,7 +353,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Transverse-Mercator-projection-1",
+    "location": "proj_examples.html#Transverse-Mercator-projection-1",
     "page": "Map projections",
     "title": "Transverse Mercator projection",
     "category": "section",
@@ -361,7 +361,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Universal-Transverse-Mercator-(UTM)-projection-1",
+    "location": "proj_examples.html#Universal-Transverse-Mercator-(UTM)-projection-1",
     "page": "Map projections",
     "title": "Universal Transverse Mercator (UTM) projection",
     "category": "section",
@@ -369,7 +369,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Oblique-Mercator-projection-1",
+    "location": "proj_examples.html#Oblique-Mercator-projection-1",
     "page": "Map projections",
     "title": "Oblique Mercator projection",
     "category": "section",
@@ -377,7 +377,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Cassini-cylindrical-projection-1",
+    "location": "proj_examples.html#Cassini-cylindrical-projection-1",
     "page": "Map projections",
     "title": "Cassini cylindrical projection",
     "category": "section",
@@ -385,7 +385,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Cylindrical-equidistant-projection-1",
+    "location": "proj_examples.html#Cylindrical-equidistant-projection-1",
     "page": "Map projections",
     "title": "Cylindrical equidistant projection",
     "category": "section",
@@ -393,7 +393,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Cylindrical-equal-area-projections-1",
+    "location": "proj_examples.html#Cylindrical-equal-area-projections-1",
     "page": "Map projections",
     "title": "Cylindrical equal-area projections",
     "category": "section",
@@ -401,7 +401,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Miller-Cylindrical-projection-1",
+    "location": "proj_examples.html#Miller-Cylindrical-projection-1",
     "page": "Map projections",
     "title": "Miller Cylindrical projection",
     "category": "section",
@@ -409,7 +409,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Cylindrical-stereographic-projections-1",
+    "location": "proj_examples.html#Cylindrical-stereographic-projections-1",
     "page": "Map projections",
     "title": "Cylindrical stereographic projections",
     "category": "section",
@@ -417,7 +417,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Miscellaneous-projections-1",
+    "location": "proj_examples.html#Miscellaneous-projections-1",
     "page": "Map projections",
     "title": "Miscellaneous projections",
     "category": "section",
@@ -425,7 +425,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Hammer-projection-1",
+    "location": "proj_examples.html#Hammer-projection-1",
     "page": "Map projections",
     "title": "Hammer projection",
     "category": "section",
@@ -433,7 +433,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Mollweide-projection-1",
+    "location": "proj_examples.html#Mollweide-projection-1",
     "page": "Map projections",
     "title": "Mollweide projection",
     "category": "section",
@@ -441,7 +441,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Winkel-Tripel-projection-1",
+    "location": "proj_examples.html#Winkel-Tripel-projection-1",
     "page": "Map projections",
     "title": "Winkel Tripel projection",
     "category": "section",
@@ -449,7 +449,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Robinson-projection-1",
+    "location": "proj_examples.html#Robinson-projection-1",
     "page": "Map projections",
     "title": "Robinson projection",
     "category": "section",
@@ -457,7 +457,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Eckert-IV-and-VI-projection-1",
+    "location": "proj_examples.html#Eckert-IV-and-VI-projection-1",
     "page": "Map projections",
     "title": "Eckert IV and VI projection",
     "category": "section",
@@ -465,7 +465,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Sinusoidal-projection-1",
+    "location": "proj_examples.html#Sinusoidal-projection-1",
     "page": "Map projections",
     "title": "Sinusoidal projection",
     "category": "section",
@@ -473,7 +473,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "proj_examples/#Van-der-Grinten-projection-1",
+    "location": "proj_examples.html#Van-der-Grinten-projection-1",
     "page": "Map projections",
     "title": "Van der Grinten projection",
     "category": "section",
@@ -481,7 +481,159 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "monolitic/#",
+    "location": "gallery/tables.html#",
+    "page": "Gallery",
+    "title": "Gallery",
+    "category": "page",
+    "text": "Colored bars Bars 3D Bars 3D peaks\n(Image: ) (Image: ) (Image: )Scatter Cart Scatter Polar Stepped histogram\n(Image: ) (Image: ) (Image: )Flower Snake Skier Daylight terminator\n(Image: ) (Image: ) (Image: )"
+},
+
+{
+    "location": "gallery/scripts_agu/colored_bars.html#",
+    "page": "Make a bar plot where colors are proportional to bar height",
+    "title": "Make a bar plot where colors are proportional to bar height",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/colored_bars.html#Make-a-bar-plot-where-colors-are-proportional-to-bar-height-1",
+    "page": "Make a bar plot where colors are proportional to bar height",
+    "title": "Make a bar plot where colors are proportional to bar height",
+    "category": "section",
+    "text": "bar(rand(15),              # Generate the dataset\n    color=:rainbow,        # The color scale\n    figsize=(14,8),        # The fig size (14 x 8 cm)\n    title=\"Colored bars\",  # The fig title\n    fmt=:png,              # The image format\n    show=true)             # Show the resultAs a one-liner (to facilitate copy-paste):bar(rand(15), color=:rainbow, figsize=(14,8), title=\"Colored bars\", fmt=:png, show=true)<img src=\"../scripts_agu/figs/colored_bars.png\" width=\"500\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/bars_3D.html#",
+    "page": "Make a 3D bar plot with constant color",
+    "title": "Make a 3D bar plot with constant color",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/bars_3D.html#Make-a-3D-bar-plot-with-constant-color-1",
+    "page": "Make a 3D bar plot with constant color",
+    "title": "Make a 3D bar plot with constant color",
+    "category": "section",
+    "text": "Create a 3x3 gridG = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");Plot that grid as 3D prismsbar3(G,                 # \'G\' is the grid created above\n     fill=(0,115,190),  # Fill prisms with this RGB color\n     lw=:thinnest,      # Line thickness (0.25 pt)\n     figsize=14,        # Set fig width of 14 cm\n     fmt=:png,          # The image format\n     show=true)         # Show the resultAs one-liners (to facilitate copy-paste):G = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");\nbar3(G, fill=(0,115,190), lw=:thinnest, figsize=14, fmt=:png, show=true)<img src=\"../scripts_agu/figs/bars_3D.png\" width=\"600\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/bars3_peaks.html#",
+    "page": "Make a 3D bar plot with colors in function of bar\'s height",
+    "title": "Make a 3D bar plot with colors in function of bar\'s height",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/bars3_peaks.html#Make-a-3D-bar-plot-with-colors-in-function-of-bar\'s-height-1",
+    "page": "Make a 3D bar plot with colors in function of bar\'s height",
+    "title": "Make a 3D bar plot with colors in function of bar\'s height",
+    "category": "section",
+    "text": "Create a \'peaks\' gridG = GMT.peaks();      # The grid\ncmap = grd2cpt(G);    # Colormap with the grid\'s data rangePlot that grid as 3D prisms. Here we use the default fig width of 12 cmbar3(G,               # \'G\' is the grid created above\n     lw=:thinnest,    # Line thickness (0.25 pt)\n     color=cmap,      # Paint the prisms with colormap computed from grid\n     fmt=:png,        # The image format\n     show=true)       # Show the resultAs one-liners (to facilitate copy-paste):G = GMT.peaks();    cmap = grd2cpt(G);\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)<img src=\"../scripts_agu/figs/bars3_peaks.png\" width=\"500\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/flower.html#",
+    "page": "Filled flower with pattern",
+    "title": "Filled flower with pattern",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/flower.html#Filled-flower-with-pattern-1",
+    "page": "Filled flower with pattern",
+    "title": "Filled flower with pattern",
+    "category": "section",
+    "text": "Draw a flower filled from a pattern in a .jpg file.t = GMT.linspace(0,2pi,360);\nx = cos.(4*t) .* cos.(t);\ny = cos.(4*t) .* sin.(t);\n\nlines([-0.7 -0.25 0], [-1.5 -0.8 0], # The flower stem\n      limits=(-1,1,-1.5,1),          # Fig limits\n      lw=9,                          # Stem\'s line width in points\n      lc=:darkgreen,                 # Stem\'s line color\n      bezier=true,                   # Smooth the stem polyne as a Bezier curve\n      figsize=(14,0),                # Fig size. Second arg = 0 means compute the height keeping aspect ratio\n      frame=:none)                   # Do not plot the frame\nplot!(x, y,\n      fill=(pattern=\"C:/progs_cygw/GMTdev/gmt5/master/test/psxy/tiling2.jpg\",  # Fill pattern file\n      dpi=200),                      # The pattern DPI\n      fmt=:png,                      # The image format\n      show=true)                     # Show the resultAs one-liners (to facilitate copy-paste):t=GMT.linspace(0,2pi,360);\nx = cos.(4*t) .* cos.(t);\ny = cos.(4*t) .* sin.(t);\nlines([-0.7 -0.25 0], [-1.5 -0.8 0], limits=(-1,1,-1.5,1), lw=9, lc=:darkgreen, bezier=true, frame=:none, figsize=(14,0))\nplot!(x, y, fill=(pattern=\"C:/progs_cygw/GMTdev/gmt5/master/test/psxy/tiling2.jpg\", dpi=200), fmt=:png, savefig=\"flower\", show=true)<img src=\"../scripts_agu/figs/flower.png\" width=\"400\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/snake.html#",
+    "page": "The snake skier",
+    "title": "The snake skier",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/snake.html#The-snake-skier-1",
+    "page": "The snake skier",
+    "title": "The snake skier",
+    "category": "section",
+    "text": "Plot a skier on sinusoid. To run this script one need to have the symbol file \"ski_alpine.eps\"x = GMT.linspace(0, 2pi);  y = cos.(2x)*0.9;\n\nlines(x,y,                           # The data\n      limits=(0,6.5,-1,2.0),         # Fig limits\n      pen=(lw=7,lc=:sienna, arrow=(len=2.2,shape=:arrow, fill=:darkgreen)),  # The \"Snake\"\n      figsize=(16,12),               # Fig size\n      title=\"Double Snake\")\nplot!(3.49, 0.97,                    # Coordinates where to plot symbol\n      symbol=\"kski_alpine/1.7\",      # Fill patern file\n      fill=:black),                  # Fill the symbol in black\n      fmt=:png,                      # The image format\n      show=true)                     # Show the resultAs one-liners (to facilitate copy-paste):x = GMT.linspace(0, 2pi);  y = cos.(2x)*0.9;\nlines(x,y, limits=(0,6.5,-1,2.0), figsize=(16,12), pen=(lw=7,lc=:sienna, arrow=(len=2.2,shape=:arrow, fill=:darkgreen)), title=\"Double Snake\")\nplot!(3.49, 0.97, symbol=\"kski_alpine/1.7\", fill=:black, show=true, fmt=:png)<img src=\"../scripts_agu/figs/snake.png\" width=\"500\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/solar.html#",
+    "page": "Daylight terminators",
+    "title": "Daylight terminators",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/solar.html#Daylight-terminators-1",
+    "page": "Daylight terminators",
+    "title": "Daylight terminators",
+    "category": "section",
+    "text": "coast(region=:global,         # Global [-180 180 -90 90]\n      proj=:EckertVI,         # Projection\n      resolution=:low,        # Coastline resolution\n      area=5000,              # Do not plot features with area (km^2) lower than this\n      borders=(1,(0.5,:gray)),# Pen settings for national borders\n      water=(175,210,255),    # Ocean\'s color\n      shore=0.5,              # Pen thicknes for coastlines\n      frame=(annot=:a,ticks=:a,grid=:a))  # The frame settings\nsolar!(terminators=(term=:d, date=\"2016-02-09T16:00:00\"), fill=\"navy@95\")\nsolar!(terminators=(term=:c, date=\"2016-02-09T16:00:00\"), fill=\"navy@85\")\nsolar!(terminators=(term=:n, date=\"2016-02-09T16:00:00\"), fill=\"navy@80\")\nsolar!(terminators=(term=:a, date=\"2016-02-09T16:00:00\"), fill=\"navy@80\")As one-liners (to facilitate copy-paste):coast(region=:d, proj=:EckertVI, resolution=:low, area=5000, borders=(1,(0.5,:gray)), water=(175,210,255), shore=0.5, frame=(annot=:a,ticks=:a,grid=:a))\nsolar!(terminators=(term=:d, date=\"2016-02-09T16:00:00\"), fill=\"navy@95\")\nsolar!(terminators=(term=:c, date=\"2016-02-09T16:00:00\"), fill=\"navy@85\")\nsolar!(terminators=(term=:n, date=\"2016-02-09T16:00:00\"), fill=\"navy@80\")\nsolar!(terminators=(term=:a, date=\"2016-02-09T16:00:00\"), fill=\"navy@80\", fmt=:png, show=true)<img src=\"../scripts_agu/figs/solar.png\" width=\"600\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/scatter_cart.html#",
+    "page": "Variable symbol size/color Cartesian scatter plot",
+    "title": "Variable symbol size/color Cartesian scatter plot",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/scatter_cart.html#Variable-symbol-size/color-Cartesian-scatter-plot-1",
+    "page": "Variable symbol size/color Cartesian scatter plot",
+    "title": "Variable symbol size/color Cartesian scatter plot",
+    "category": "section",
+    "text": "Draw a Cartesian scatter plot with variable symbol size, color and transparencyscatter(rand(100),rand(100),   # Generate data\n        markersize=rand(100),  # Symbol sizes\n        marker=:c,             # Plot circles\n        color=:ocean,          # Color scale\n        zcolor=rand(100),      # Assign color to each symbol\n        alpha=50,              # Set transparency to 50%\n        title=\"Scatter\",       # Fig title\n        figsize=12,            # Set fig size of 12 cm\n        fmt=:png,              # The image format\n        show=true)             # Show the resultAs a one-liner (to facilitate copy-paste):scatter(rand(100),rand(100), markersize=rand(100), marker=:c, color=:ocean, zcolor=rand(100), figsize=12, alpha=50, title=\"Scatter\", fmt=:png, show=true)<img src=\"../scripts_agu/figs/scatter_cart.png\" width=\"500\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/scatter_polar.html#",
+    "page": "Variable symbol size/color Polar scatter plot",
+    "title": "Variable symbol size/color Polar scatter plot",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/scatter_polar.html#Variable-symbol-size/color-Polar-scatter-plot-1",
+    "page": "Variable symbol size/color Polar scatter plot",
+    "title": "Variable symbol size/color Polar scatter plot",
+    "category": "section",
+    "text": "Draw a Polar scatter plot with variable symbol size, color and transparency. We will use the default color scale (rainbow) and fig size (12 cm).teta = 2pi*rand(150)*180/pi; r = 9*rand(150); ms = r / 10;\n\nscatter(teta, r,                  # The data\n	limits=(0,360,0,10),      # Fig limits\n        xaxis=(annot=45,grid=45), # Annotate and plor grid lines every 45 deg\n        yaxis=(annot=2,grid=2),   # Same but for 2 units in radial direction\n        proj=:Polar,              # Set the polar projection\n        zcolor=teta,              # Assign color to each symbol\n        size=ms,                  # The symbl sizes\n        alpha=25,                 # Set transparency to 50%\n        title=\"Polar scatter\",    # Fig title\n        fmt=:png,                 # The image format\n        show=true)                # Show the resultAs one-liners (to facilitate copy-paste):teta = 2pi*rand(150)*180/pi; r = 9*rand(150); ms = r / 10;\nscatter(teta, r, xaxis=(annot=45,grid=45), yaxis=(annot=2,grid=2), title=\"Polar scatter\", proj=:Polar, limits=(0,360,0,10), zcolor=teta, size=ms, alpha=25, show=true)<img src=\"../scripts_agu/figs/scatter_polar.png\" width=\"400\" class=\"center\"/>"
+},
+
+{
+    "location": "gallery/scripts_agu/histo_step.html#",
+    "page": "Stepped patch histogram",
+    "title": "Stepped patch histogram",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/scripts_agu/histo_step.html#Stepped-patch-histogram-1",
+    "page": "Stepped patch histogram",
+    "title": "Stepped patch histogram",
+    "category": "section",
+    "text": "Draw a histogram as a stepped patchD1 = histogram(randn(1000), I=:o, bin=0.1);  # Create histogrammed data with bin = 0.1 (I=:o to create the dataset)\nD2 = histogram(randn(500),  I=:o, bin=0.1);\n\nlines(D1,                    # The data\n	  steps=(x=true,),       # Make steps a xx\n	  close=(bot=\"\",),       # Close polygon at the bottom\n	  fill=(pattern=20, bg=:green, dpi=200),    # Set the pattern code, the background color and dpi\n	  figsize=(15,10))       # Set fig size of 15x10 cm\nlines!(D2,                   # Second dataset\n	   steps=(x=true,),       \n	   close=(bot=\"\",),\n	   fill=(pattern=82,bg=:blue,dpi=100),\n	   title=\"Stepped patch histogram\",\n       fmt=:png,             # The image format\n       show=true)            # Show the resultAs one-liners (to facilitate copy-paste):D1 = histogram(randn(1000), I=:o, bin=0.1);\nD2 = histogram(randn(500),  I=:o, bin=0.1);\nlines(D1,  steps=(x=true,), close=(bot=\"\",), fill=(pattern=20,bg=:green,dpi=200), figsize=(15,10))\nlines!(D2, steps=(x=true,), close=(bot=\"\",), fill=(pattern=82,bg=:blue,dpi=100), title=\"Stepped patch histogram\", show=true, fmt=:png)<img src=\"../scripts_agu/figs/histo_step.png\" width=\"500\" class=\"center\"/>"
+},
+
+{
+    "location": "monolitic.html#",
     "page": "Monolithic",
     "title": "Monolithic",
     "category": "page",
@@ -489,7 +641,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "monolitic/#Monolithic-1",
+    "location": "monolitic.html#Monolithic-1",
     "page": "Monolithic",
     "title": "Monolithic",
     "category": "section",
@@ -497,7 +649,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "monolitic/#How-input-and-output-are-assigned-1",
+    "location": "monolitic.html#How-input-and-output-are-assigned-1",
     "page": "Monolithic",
     "title": "How input and output are assigned",
     "category": "section",
@@ -505,7 +657,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#",
+    "location": "modules.html#",
     "page": "By Modules",
     "title": "By Modules",
     "category": "page",
@@ -513,7 +665,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#By-Modules-1",
+    "location": "modules.html#By-Modules-1",
     "page": "By Modules",
     "title": "By Modules",
     "category": "section",
@@ -521,7 +673,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#Specifying-the-pen-attributes-1",
+    "location": "modules.html#Specifying-the-pen-attributes-1",
     "page": "By Modules",
     "title": "Specifying the pen attributes",
     "category": "section",
@@ -529,7 +681,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#Specifying-the-axes-1",
+    "location": "modules.html#Specifying-the-axes-1",
     "page": "By Modules",
     "title": "Specifying the axes",
     "category": "section",
@@ -537,7 +689,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#Axes-(and-other)-configuration-1",
+    "location": "modules.html#Axes-(and-other)-configuration-1",
     "page": "By Modules",
     "title": "Axes (and other) configuration",
     "category": "section",
@@ -545,7 +697,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#Specifying-the-figure-size-1",
+    "location": "modules.html#Specifying-the-figure-size-1",
     "page": "By Modules",
     "title": "Specifying the figure size",
     "category": "section",
@@ -553,7 +705,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#The-output-format-1",
+    "location": "modules.html#The-output-format-1",
     "page": "By Modules",
     "title": "The output format",
     "category": "section",
@@ -561,7 +713,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#Saving-data-to-disk-1",
+    "location": "modules.html#Saving-data-to-disk-1",
     "page": "By Modules",
     "title": "Saving data to disk",
     "category": "section",
@@ -569,7 +721,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modules/#How-inputs-are-transmitted-to-modules-1",
+    "location": "modules.html#How-inputs-are-transmitted-to-modules-1",
     "page": "By Modules",
     "title": "How inputs are transmitted to modules",
     "category": "section",
@@ -577,7 +729,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#",
+    "location": "common_opts.html#",
     "page": "Common options",
     "title": "Common options",
     "category": "page",
@@ -585,7 +737,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#axis-1",
+    "location": "common_opts.html#axis-1",
     "page": "Common options",
     "title": "axis",
     "category": "section",
@@ -593,7 +745,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#Axis-options-table-1",
+    "location": "common_opts.html#Axis-options-table-1",
     "page": "Common options",
     "title": "Axis options table",
     "category": "section",
@@ -601,7 +753,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#Examples-1",
+    "location": "common_opts.html#Examples-1",
     "page": "Common options",
     "title": "Examples",
     "category": "section",
@@ -609,7 +761,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#limits-1",
+    "location": "common_opts.html#limits-1",
     "page": "Common options",
     "title": "limits",
     "category": "section",
@@ -617,7 +769,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#proj-1",
+    "location": "common_opts.html#proj-1",
     "page": "Common options",
     "title": "proj",
     "category": "section",
@@ -625,7 +777,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#stamp-1",
+    "location": "common_opts.html#stamp-1",
     "page": "Common options",
     "title": "stamp",
     "category": "section",
@@ -633,7 +785,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#verbose-1",
+    "location": "common_opts.html#verbose-1",
     "page": "Common options",
     "title": "verbose",
     "category": "section",
@@ -641,7 +793,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#x_off-1",
+    "location": "common_opts.html#x_off-1",
     "page": "Common options",
     "title": "x_off",
     "category": "section",
@@ -649,7 +801,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "common_opts/#y_off-1",
+    "location": "common_opts.html#y_off-1",
     "page": "Common options",
     "title": "y_off",
     "category": "section",
@@ -657,7 +809,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows_control/#",
+    "location": "arrows_control.html#",
     "page": "Vector Attributes",
     "title": "Vector Attributes",
     "category": "page",
@@ -665,7 +817,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows_control/#Vector-Attributes-1",
+    "location": "arrows_control.html#Vector-Attributes-1",
     "page": "Vector Attributes",
     "title": "Vector Attributes",
     "category": "section",
@@ -673,7 +825,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "color/#",
+    "location": "color.html#",
     "page": "Setting color",
     "title": "Setting color",
     "category": "page",
@@ -681,7 +833,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "color/#Setting-color-1",
+    "location": "color.html#Setting-color-1",
     "page": "Setting color",
     "title": "Setting color",
     "category": "section",
@@ -689,7 +841,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "decorated/#",
+    "location": "decorated.html#",
     "page": "Line decorations",
     "title": "Line decorations",
     "category": "page",
@@ -697,7 +849,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "decorated/#Line-decorations-1",
+    "location": "decorated.html#Line-decorations-1",
     "page": "Line decorations",
     "title": "Line decorations",
     "category": "section",
@@ -705,7 +857,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "decorated/#Front-lines-1",
+    "location": "decorated.html#Front-lines-1",
     "page": "Line decorations",
     "title": "Front lines",
     "category": "section",
@@ -713,7 +865,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "decorated/#Decorated-lines-1",
+    "location": "decorated.html#Decorated-lines-1",
     "page": "Line decorations",
     "title": "Decorated lines",
     "category": "section",
@@ -721,7 +873,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "decorated/#Quoted-lines-1",
+    "location": "decorated.html#Quoted-lines-1",
     "page": "Line decorations",
     "title": "Quoted lines",
     "category": "section",
@@ -729,7 +881,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "symbols/#",
+    "location": "symbols.html#",
     "page": "Symbols",
     "title": "Symbols",
     "category": "page",
@@ -737,7 +889,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "symbols/#Symbols-1",
+    "location": "symbols.html#Symbols-1",
     "page": "Symbols",
     "title": "Symbols",
     "category": "section",
@@ -745,7 +897,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows/#",
+    "location": "arrows.html#",
     "page": "arrows",
     "title": "arrows",
     "category": "page",
@@ -753,7 +905,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows/#arrows-1",
+    "location": "arrows.html#arrows-1",
     "page": "arrows",
     "title": "arrows",
     "category": "section",
@@ -761,7 +913,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows/#Parameters-1",
+    "location": "arrows.html#Parameters-1",
     "page": "arrows",
     "title": "Parameters",
     "category": "section",
@@ -769,7 +921,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "arrows/#Examples-1",
+    "location": "arrows.html#Examples-1",
     "page": "arrows",
     "title": "Examples",
     "category": "section",
@@ -777,7 +929,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar/#",
+    "location": "bar.html#",
     "page": "bar",
     "title": "bar",
     "category": "page",
@@ -785,7 +937,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar/#bar-1",
+    "location": "bar.html#bar-1",
     "page": "bar",
     "title": "bar",
     "category": "section",
@@ -793,7 +945,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar/#Parameters-1",
+    "location": "bar.html#Parameters-1",
     "page": "bar",
     "title": "Parameters",
     "category": "section",
@@ -801,7 +953,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar/#Examples-1",
+    "location": "bar.html#Examples-1",
     "page": "bar",
     "title": "Examples",
     "category": "section",
@@ -809,7 +961,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar/#See-also-1",
+    "location": "bar.html#See-also-1",
     "page": "bar",
     "title": "See also",
     "category": "section",
@@ -817,7 +969,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar3/#",
+    "location": "bar3.html#",
     "page": "bar3",
     "title": "bar3",
     "category": "page",
@@ -825,7 +977,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar3/#bar3-1",
+    "location": "bar3.html#bar3-1",
     "page": "bar3",
     "title": "bar3",
     "category": "section",
@@ -833,7 +985,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar3/#Parameters-1",
+    "location": "bar3.html#Parameters-1",
     "page": "bar3",
     "title": "Parameters",
     "category": "section",
@@ -841,7 +993,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar3/#Examples-1",
+    "location": "bar3.html#Examples-1",
     "page": "bar3",
     "title": "Examples",
     "category": "section",
@@ -849,7 +1001,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "bar3/#See-also-1",
+    "location": "bar3.html#See-also-1",
     "page": "bar3",
     "title": "See also",
     "category": "section",
@@ -857,7 +1009,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lines/#",
+    "location": "lines.html#",
     "page": "lines",
     "title": "lines",
     "category": "page",
@@ -865,7 +1017,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lines/#lines-1",
+    "location": "lines.html#lines-1",
     "page": "lines",
     "title": "lines",
     "category": "section",
@@ -873,7 +1025,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lines/#Parameters-1",
+    "location": "lines.html#Parameters-1",
     "page": "lines",
     "title": "Parameters",
     "category": "section",
@@ -881,7 +1033,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lines/#Examples-1",
+    "location": "lines.html#Examples-1",
     "page": "lines",
     "title": "Examples",
     "category": "section",
@@ -889,7 +1041,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#",
+    "location": "scatter.html#",
     "page": "scatter",
     "title": "scatter",
     "category": "page",
@@ -897,7 +1049,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#scatter-1",
+    "location": "scatter.html#scatter-1",
     "page": "scatter",
     "title": "scatter",
     "category": "section",
@@ -905,7 +1057,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#Required-Arguments-1",
+    "location": "scatter.html#Required-Arguments-1",
     "page": "scatter",
     "title": "Required Arguments",
     "category": "section",
@@ -913,7 +1065,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#Optional-Arguments-1",
+    "location": "scatter.html#Optional-Arguments-1",
     "page": "scatter",
     "title": "Optional Arguments",
     "category": "section",
@@ -921,7 +1073,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#Examples-1",
+    "location": "scatter.html#Examples-1",
     "page": "scatter",
     "title": "Examples",
     "category": "section",
@@ -929,7 +1081,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter/#See-also-1",
+    "location": "scatter.html#See-also-1",
     "page": "scatter",
     "title": "See also",
     "category": "section",
@@ -937,7 +1089,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter3/#",
+    "location": "scatter3.html#",
     "page": "scatter3",
     "title": "scatter3",
     "category": "page",
@@ -945,7 +1097,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter3/#scatter3-1",
+    "location": "scatter3.html#scatter3-1",
     "page": "scatter3",
     "title": "scatter3",
     "category": "section",
@@ -953,7 +1105,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter3/#Parameters-1",
+    "location": "scatter3.html#Parameters-1",
     "page": "scatter3",
     "title": "Parameters",
     "category": "section",
@@ -961,7 +1113,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter3/#Examples-1",
+    "location": "scatter3.html#Examples-1",
     "page": "scatter3",
     "title": "Examples",
     "category": "section",
@@ -969,7 +1121,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "scatter3/#See-also-1",
+    "location": "scatter3.html#See-also-1",
     "page": "scatter3",
     "title": "See also",
     "category": "section",
@@ -977,7 +1129,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#",
+    "location": "solar.html#",
     "page": "solar",
     "title": "solar",
     "category": "page",
@@ -985,7 +1137,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#solar-1",
+    "location": "solar.html#solar-1",
     "page": "solar",
     "title": "solar",
     "category": "section",
@@ -993,7 +1145,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#Required-Arguments-1",
+    "location": "solar.html#Required-Arguments-1",
     "page": "solar",
     "title": "Required Arguments",
     "category": "section",
@@ -1001,7 +1153,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#Optional-Arguments-1",
+    "location": "solar.html#Optional-Arguments-1",
     "page": "solar",
     "title": "Optional Arguments",
     "category": "section",
@@ -1009,7 +1161,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#Examples-1",
+    "location": "solar.html#Examples-1",
     "page": "solar",
     "title": "Examples",
     "category": "section",
@@ -1017,7 +1169,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "solar/#See-also-1",
+    "location": "solar.html#See-also-1",
     "page": "solar",
     "title": "See also",
     "category": "section",
@@ -1025,7 +1177,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#",
+    "location": "types.html#",
     "page": "The GMT types",
     "title": "The GMT types",
     "category": "page",
@@ -1033,7 +1185,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#The-GMT.jl-types-1",
+    "location": "types.html#The-GMT.jl-types-1",
     "page": "The GMT types",
     "title": "The GMT.jl types",
     "category": "section",
@@ -1041,7 +1193,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#Grid-type-1",
+    "location": "types.html#Grid-type-1",
     "page": "The GMT types",
     "title": "Grid type",
     "category": "section",
@@ -1049,7 +1201,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#Image-type-1",
+    "location": "types.html#Image-type-1",
     "page": "The GMT types",
     "title": "Image type",
     "category": "section",
@@ -1057,7 +1209,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#Dataset-type-1",
+    "location": "types.html#Dataset-type-1",
     "page": "The GMT types",
     "title": "Dataset type",
     "category": "section",
@@ -1065,7 +1217,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#CPT-type-1",
+    "location": "types.html#CPT-type-1",
     "page": "The GMT types",
     "title": "CPT type",
     "category": "section",
@@ -1073,7 +1225,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "types/#Postscript-type-1",
+    "location": "types.html#Postscript-type-1",
     "page": "The GMT types",
     "title": "Postscript type",
     "category": "section",
@@ -1081,7 +1233,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#",
+    "location": "index.html#",
     "page": "Index",
     "title": "Index",
     "category": "page",
@@ -1089,7 +1241,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#Index-1",
+    "location": "index.html#Index-1",
     "page": "Index",
     "title": "Index",
     "category": "section",
@@ -1097,7 +1249,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.arrows",
+    "location": "index.html#GMT.arrows",
     "page": "Index",
     "title": "GMT.arrows",
     "category": "function",
@@ -1105,7 +1257,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.bar",
+    "location": "index.html#GMT.bar",
     "page": "Index",
     "title": "GMT.bar",
     "category": "function",
@@ -1113,7 +1265,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.bar3",
+    "location": "index.html#GMT.bar3",
     "page": "Index",
     "title": "GMT.bar3",
     "category": "function",
@@ -1121,7 +1273,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.basemap",
+    "location": "index.html#GMT.basemap",
     "page": "Index",
     "title": "GMT.basemap",
     "category": "function",
@@ -1129,7 +1281,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.blockmean",
+    "location": "index.html#GMT.blockmean",
     "page": "Index",
     "title": "GMT.blockmean",
     "category": "function",
@@ -1137,7 +1289,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.blockmedian",
+    "location": "index.html#GMT.blockmedian",
     "page": "Index",
     "title": "GMT.blockmedian",
     "category": "function",
@@ -1145,7 +1297,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.blockmode",
+    "location": "index.html#GMT.blockmode",
     "page": "Index",
     "title": "GMT.blockmode",
     "category": "function",
@@ -1153,7 +1305,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.clip",
+    "location": "index.html#GMT.clip",
     "page": "Index",
     "title": "GMT.clip",
     "category": "function",
@@ -1161,7 +1313,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.coast",
+    "location": "index.html#GMT.coast",
     "page": "Index",
     "title": "GMT.coast",
     "category": "function",
@@ -1169,7 +1321,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.colorbar",
+    "location": "index.html#GMT.colorbar",
     "page": "Index",
     "title": "GMT.colorbar",
     "category": "function",
@@ -1177,7 +1329,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.contour",
+    "location": "index.html#GMT.contour",
     "page": "Index",
     "title": "GMT.contour",
     "category": "function",
@@ -1185,7 +1337,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.filter1d",
+    "location": "index.html#GMT.filter1d",
     "page": "Index",
     "title": "GMT.filter1d",
     "category": "function",
@@ -1193,7 +1345,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.fitcircle",
+    "location": "index.html#GMT.fitcircle",
     "page": "Index",
     "title": "GMT.fitcircle",
     "category": "function",
@@ -1201,7 +1353,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmt-Tuple{String,Vararg{Any,N} where N}",
+    "location": "index.html#GMT.gmt-Tuple{String,Vararg{Any,N} where N}",
     "page": "Index",
     "title": "GMT.gmt",
     "category": "method",
@@ -1209,7 +1361,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmt2kml",
+    "location": "index.html#GMT.gmt2kml",
     "page": "Index",
     "title": "GMT.gmt2kml",
     "category": "function",
@@ -1217,7 +1369,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtconnect",
+    "location": "index.html#GMT.gmtconnect",
     "page": "Index",
     "title": "GMT.gmtconnect",
     "category": "function",
@@ -1225,7 +1377,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtconvert",
+    "location": "index.html#GMT.gmtconvert",
     "page": "Index",
     "title": "GMT.gmtconvert",
     "category": "function",
@@ -1233,7 +1385,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtinfo",
+    "location": "index.html#GMT.gmtinfo",
     "page": "Index",
     "title": "GMT.gmtinfo",
     "category": "function",
@@ -1241,7 +1393,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtread-Tuple{String}",
+    "location": "index.html#GMT.gmtread-Tuple{String}",
     "page": "Index",
     "title": "GMT.gmtread",
     "category": "method",
@@ -1249,7 +1401,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtselect",
+    "location": "index.html#GMT.gmtselect",
     "page": "Index",
     "title": "GMT.gmtselect",
     "category": "function",
@@ -1257,7 +1409,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtset",
+    "location": "index.html#GMT.gmtset",
     "page": "Index",
     "title": "GMT.gmtset",
     "category": "function",
@@ -1265,7 +1417,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtsimplify",
+    "location": "index.html#GMT.gmtsimplify",
     "page": "Index",
     "title": "GMT.gmtsimplify",
     "category": "function",
@@ -1273,7 +1425,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtspatial",
+    "location": "index.html#GMT.gmtspatial",
     "page": "Index",
     "title": "GMT.gmtspatial",
     "category": "function",
@@ -1281,7 +1433,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtvector",
+    "location": "index.html#GMT.gmtvector",
     "page": "Index",
     "title": "GMT.gmtvector",
     "category": "function",
@@ -1289,7 +1441,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtwhich-Tuple{String}",
+    "location": "index.html#GMT.gmtwhich-Tuple{String}",
     "page": "Index",
     "title": "GMT.gmtwhich",
     "category": "method",
@@ -1297,7 +1449,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.gmtwrite-Tuple{String,Any}",
+    "location": "index.html#GMT.gmtwrite-Tuple{String,Any}",
     "page": "Index",
     "title": "GMT.gmtwrite",
     "category": "method",
@@ -1305,7 +1457,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grd2cpt",
+    "location": "index.html#GMT.grd2cpt",
     "page": "Index",
     "title": "GMT.grd2cpt",
     "category": "function",
@@ -1313,7 +1465,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grd2kml",
+    "location": "index.html#GMT.grd2kml",
     "page": "Index",
     "title": "GMT.grd2kml",
     "category": "function",
@@ -1321,7 +1473,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grd2xyz",
+    "location": "index.html#GMT.grd2xyz",
     "page": "Index",
     "title": "GMT.grd2xyz",
     "category": "function",
@@ -1329,7 +1481,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdblend",
+    "location": "index.html#GMT.grdblend",
     "page": "Index",
     "title": "GMT.grdblend",
     "category": "function",
@@ -1337,7 +1489,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdclip",
+    "location": "index.html#GMT.grdclip",
     "page": "Index",
     "title": "GMT.grdclip",
     "category": "function",
@@ -1345,7 +1497,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdcontour",
+    "location": "index.html#GMT.grdcontour",
     "page": "Index",
     "title": "GMT.grdcontour",
     "category": "function",
@@ -1353,7 +1505,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdcut",
+    "location": "index.html#GMT.grdcut",
     "page": "Index",
     "title": "GMT.grdcut",
     "category": "function",
@@ -1361,7 +1513,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdedit",
+    "location": "index.html#GMT.grdedit",
     "page": "Index",
     "title": "GMT.grdedit",
     "category": "function",
@@ -1369,7 +1521,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdfft",
+    "location": "index.html#GMT.grdfft",
     "page": "Index",
     "title": "GMT.grdfft",
     "category": "function",
@@ -1377,7 +1529,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdfilter",
+    "location": "index.html#GMT.grdfilter",
     "page": "Index",
     "title": "GMT.grdfilter",
     "category": "function",
@@ -1385,7 +1537,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdgradient",
+    "location": "index.html#GMT.grdgradient",
     "page": "Index",
     "title": "GMT.grdgradient",
     "category": "function",
@@ -1393,7 +1545,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdhisteq",
+    "location": "index.html#GMT.grdhisteq",
     "page": "Index",
     "title": "GMT.grdhisteq",
     "category": "function",
@@ -1401,7 +1553,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdimage",
+    "location": "index.html#GMT.grdimage",
     "page": "Index",
     "title": "GMT.grdimage",
     "category": "function",
@@ -1409,7 +1561,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdinfo",
+    "location": "index.html#GMT.grdinfo",
     "page": "Index",
     "title": "GMT.grdinfo",
     "category": "function",
@@ -1417,7 +1569,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdlandmask",
+    "location": "index.html#GMT.grdlandmask",
     "page": "Index",
     "title": "GMT.grdlandmask",
     "category": "function",
@@ -1425,7 +1577,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdpaste",
+    "location": "index.html#GMT.grdpaste",
     "page": "Index",
     "title": "GMT.grdpaste",
     "category": "function",
@@ -1433,7 +1585,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdproject",
+    "location": "index.html#GMT.grdproject",
     "page": "Index",
     "title": "GMT.grdproject",
     "category": "function",
@@ -1441,7 +1593,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdsample",
+    "location": "index.html#GMT.grdsample",
     "page": "Index",
     "title": "GMT.grdsample",
     "category": "function",
@@ -1449,7 +1601,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdtrack",
+    "location": "index.html#GMT.grdtrack",
     "page": "Index",
     "title": "GMT.grdtrack",
     "category": "function",
@@ -1457,7 +1609,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdtrend",
+    "location": "index.html#GMT.grdtrend",
     "page": "Index",
     "title": "GMT.grdtrend",
     "category": "function",
@@ -1465,7 +1617,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdvector",
+    "location": "index.html#GMT.grdvector",
     "page": "Index",
     "title": "GMT.grdvector",
     "category": "function",
@@ -1473,7 +1625,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdview",
+    "location": "index.html#GMT.grdview",
     "page": "Index",
     "title": "GMT.grdview",
     "category": "function",
@@ -1481,7 +1633,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.grdvolume",
+    "location": "index.html#GMT.grdvolume",
     "page": "Index",
     "title": "GMT.grdvolume",
     "category": "function",
@@ -1489,7 +1641,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.greenspline",
+    "location": "index.html#GMT.greenspline",
     "page": "Index",
     "title": "GMT.greenspline",
     "category": "function",
@@ -1497,7 +1649,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.histogram",
+    "location": "index.html#GMT.histogram",
     "page": "Index",
     "title": "GMT.histogram",
     "category": "function",
@@ -1505,7 +1657,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.image",
+    "location": "index.html#GMT.image",
     "page": "Index",
     "title": "GMT.image",
     "category": "function",
@@ -1513,7 +1665,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.imshow-Tuple{Any}",
+    "location": "index.html#GMT.imshow-Tuple{Any}",
     "page": "Index",
     "title": "GMT.imshow",
     "category": "method",
@@ -1521,7 +1673,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.kml2gmt",
+    "location": "index.html#GMT.kml2gmt",
     "page": "Index",
     "title": "GMT.kml2gmt",
     "category": "function",
@@ -1529,7 +1681,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.legend",
+    "location": "index.html#GMT.legend",
     "page": "Index",
     "title": "GMT.legend",
     "category": "function",
@@ -1537,7 +1689,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.lines",
+    "location": "index.html#GMT.lines",
     "page": "Index",
     "title": "GMT.lines",
     "category": "function",
@@ -1545,7 +1697,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.logo",
+    "location": "index.html#GMT.logo",
     "page": "Index",
     "title": "GMT.logo",
     "category": "function",
@@ -1553,7 +1705,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.makecpt",
+    "location": "index.html#GMT.makecpt",
     "page": "Index",
     "title": "GMT.makecpt",
     "category": "function",
@@ -1561,7 +1713,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.mapproject",
+    "location": "index.html#GMT.mapproject",
     "page": "Index",
     "title": "GMT.mapproject",
     "category": "function",
@@ -1569,7 +1721,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.mask",
+    "location": "index.html#GMT.mask",
     "page": "Index",
     "title": "GMT.mask",
     "category": "function",
@@ -1577,7 +1729,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.mat2ds-Tuple{Any}",
+    "location": "index.html#GMT.mat2ds-Tuple{Any}",
     "page": "Index",
     "title": "GMT.mat2ds",
     "category": "method",
@@ -1585,7 +1737,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.mat2grid",
+    "location": "index.html#GMT.mat2grid",
     "page": "Index",
     "title": "GMT.mat2grid",
     "category": "function",
@@ -1593,7 +1745,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.nearneighbor",
+    "location": "index.html#GMT.nearneighbor",
     "page": "Index",
     "title": "GMT.nearneighbor",
     "category": "function",
@@ -1601,7 +1753,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.plot-Tuple{Any}",
+    "location": "index.html#GMT.plot-Tuple{Any}",
     "page": "Index",
     "title": "GMT.plot",
     "category": "method",
@@ -1609,7 +1761,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.plot3d-Tuple{Any}",
+    "location": "index.html#GMT.plot3d-Tuple{Any}",
     "page": "Index",
     "title": "GMT.plot3d",
     "category": "method",
@@ -1617,7 +1769,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.project",
+    "location": "index.html#GMT.project",
     "page": "Index",
     "title": "GMT.project",
     "category": "function",
@@ -1625,7 +1777,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.psconvert",
+    "location": "index.html#GMT.psconvert",
     "page": "Index",
     "title": "GMT.psconvert",
     "category": "function",
@@ -1633,7 +1785,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.regress",
+    "location": "index.html#GMT.regress",
     "page": "Index",
     "title": "GMT.regress",
     "category": "function",
@@ -1641,7 +1793,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.rose",
+    "location": "index.html#GMT.rose",
     "page": "Index",
     "title": "GMT.rose",
     "category": "function",
@@ -1649,7 +1801,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.sample1d",
+    "location": "index.html#GMT.sample1d",
     "page": "Index",
     "title": "GMT.sample1d",
     "category": "function",
@@ -1657,7 +1809,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.scatter",
+    "location": "index.html#GMT.scatter",
     "page": "Index",
     "title": "GMT.scatter",
     "category": "function",
@@ -1665,7 +1817,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.solar",
+    "location": "index.html#GMT.solar",
     "page": "Index",
     "title": "GMT.solar",
     "category": "function",
@@ -1673,7 +1825,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.spectrum1d",
+    "location": "index.html#GMT.spectrum1d",
     "page": "Index",
     "title": "GMT.spectrum1d",
     "category": "function",
@@ -1681,7 +1833,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.sphdistance",
+    "location": "index.html#GMT.sphdistance",
     "page": "Index",
     "title": "GMT.sphdistance",
     "category": "function",
@@ -1689,7 +1841,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.sphinterpolate",
+    "location": "index.html#GMT.sphinterpolate",
     "page": "Index",
     "title": "GMT.sphinterpolate",
     "category": "function",
@@ -1697,7 +1849,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.sphtriangulate",
+    "location": "index.html#GMT.sphtriangulate",
     "page": "Index",
     "title": "GMT.sphtriangulate",
     "category": "function",
@@ -1705,7 +1857,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.splitxyz",
+    "location": "index.html#GMT.splitxyz",
     "page": "Index",
     "title": "GMT.splitxyz",
     "category": "function",
@@ -1713,7 +1865,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.surface",
+    "location": "index.html#GMT.surface",
     "page": "Index",
     "title": "GMT.surface",
     "category": "function",
@@ -1721,7 +1873,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.text",
+    "location": "index.html#GMT.text",
     "page": "Index",
     "title": "GMT.text",
     "category": "function",
@@ -1729,7 +1881,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.trend1d",
+    "location": "index.html#GMT.trend1d",
     "page": "Index",
     "title": "GMT.trend1d",
     "category": "function",
@@ -1737,7 +1889,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.trend2d",
+    "location": "index.html#GMT.trend2d",
     "page": "Index",
     "title": "GMT.trend2d",
     "category": "function",
@@ -1745,7 +1897,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.triangulate",
+    "location": "index.html#GMT.triangulate",
     "page": "Index",
     "title": "GMT.triangulate",
     "category": "function",
@@ -1753,7 +1905,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.wiggle",
+    "location": "index.html#GMT.wiggle",
     "page": "Index",
     "title": "GMT.wiggle",
     "category": "function",
@@ -1761,7 +1913,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.xyz2grd",
+    "location": "index.html#GMT.xyz2grd",
     "page": "Index",
     "title": "GMT.xyz2grd",
     "category": "function",
@@ -1769,7 +1921,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#GMT.get_GMTversion-Tuple{Ptr{Nothing}}",
+    "location": "index.html#GMT.get_GMTversion-Tuple{Ptr{Nothing}}",
     "page": "Index",
     "title": "GMT.get_GMTversion",
     "category": "method",
@@ -1777,7 +1929,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#Functions-1",
+    "location": "index.html#Functions-1",
     "page": "Index",
     "title": "Functions",
     "category": "section",
