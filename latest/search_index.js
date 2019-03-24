@@ -501,7 +501,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Historical collection",
     "title": "Historical collection",
     "category": "page",
-    "text": "Colored bars Bars 3D Bars 3D peaks\n(Image: ) (Image: ) (Image: )"
+    "text": "Contour maps Image presentations Spectral estimation\n(Image: ) (Image: ) (Image: )"
 },
 
 {
