@@ -1653,7 +1653,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Index",
     "title": "GMT.gmtset",
     "category": "function",
-    "text": "gmtset(cmd0::String=\"\", kwargs...)\n\nAdjust individual GMT defaults settings in the current directory’s gmt.conf file.\n\nFull option list at gmtinfo\n\nParameters\n\nD : units : – Str or [] –  \nModify the GMT defaults based on the system settings. Append u for US defaults or s for SI defaults.   -D\nG : defaultsfile : – Str –\nName of specific gmt.conf file to read and modify.    -G\nV : verbose : – Bool or Str –		Flags = level\nSelect verbosity level, which will send progress reports to stderr.   -V\nwrite : |> : Str –     Flags = fname\nSave result to ASCII file instead of returning to a Julia variable. Give file name as argument.   Use the bo option to save as a binary file.\n\n\n\n\n\n"
+    "text": "gmtset(cmd0::String=\"\", kwargs...)\n\nAdjust individual GMT defaults settings in the current directory’s gmt.conf file.\n\nFull option list at gmtset\n\nParameters\n\nD : units : – Str or [] –  \nModify the GMT defaults based on the system settings. Append u for US defaults or s for SI defaults.   -D\nG : defaultsfile : – Str –\nName of specific gmt.conf file to read and modify.    -G\nV : verbose : – Bool or Str –		Flags = level\nSelect verbosity level, which will send progress reports to stderr.   -V\nwrite : |> : Str –     Flags = fname\nSave result to ASCII file instead of returning to a Julia variable. Give file name as argument.   Use the bo option to save as a binary file.\n\n\n\n\n\n"
 },
 
 {
