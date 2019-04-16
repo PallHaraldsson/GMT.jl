@@ -681,6 +681,70 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "gallery/historic/ex03.html#",
+    "page": "Image presentations",
+    "title": "Image presentations",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex03.html#Image-presentations-1",
+    "page": "Image presentations",
+    "title": "Image presentations",
+    "category": "section",
+    "text": "	gmt(\"gmtset GMT_FFT kiss\")\n	\n	cpos  = fitcircle(\"@sat_03.xyg\", L=2, F=:m)\n	cposx = cpos[1].data[1,1];		cposy = cpos[1].data[1,2]\n	ppos  = fitcircle(\"@sat_03.xyg\", L=2, F=:n)\n	pposx = ppos[1].data[1,1];		pposy = ppos[1].data[1,2]\n\n	# Now we use \"project\" to gmt project the data in both sat.xyg and ship.xyg\n	# into data.pg, where g is the same and p is the oblique longitude around\n	# the great circle. We use -Q to get the p distance in kilometers, and -S\n	# to sort the output into increasing p values.\n\n	sat_pg  = gmt(@sprintf(\"project @sat_03.xyg -C%f/%f -T%f/%f -S -Fpz -Q\", cposx, cposy, pposx, pposy));\n	ship_pg = gmt(@sprintf(\"project @ship_03.xyg -C%f/%f -T%f/%f -S -Fpz -Q\", cposx, cposy, pposx, pposy));\n	sat_pg  = sat_pg[1].data;\n	ship_pg = ship_pg[1].data;\n\n	# The gmtinfo utility will report the minimum and maximum values for all columns. \n	# We use this information first with a large -I value to find the appropriate -R\n	# to use to plot the .pg data. \n	R = gmtinfo([sat_pg; ship_pg], I=(100,25))\n	R = R[1].text[1]\n	plot(sat_pg, region=R, U=\"L/-1.75i/-1.25i/\\\"Example 3a in Cookbook\\\"\", frame=(axes=:WeSn,\n		xaxis=(annot=500, ticks=100, label=\"Distance along great circle\"), yaxis=(annot=100, ticks=25,\n        label=\"Gravity anomaly (mGal)\")), x_off=5, y_off=3.75, W=:thick, figsize=(20,12.7))\n	plot!(ship_pg, S=\"p0.03i\", savefig=\"example_03a\", show=1)\n\n	# From this plot we see that the ship data have some \"spikes\" and also greatly\n	# differ from the satellite data at a point about p ~= +250 km, where both of\n	# them show a very large anomaly.\n\n	# To facilitate comparison of the two with a cross-spectral analysis using \"spectrum1d\",\n	# we resample both data sets at intervals of 1 km.  First we find out how the data are\n	# typically spaced using $AWK to get the delta-p between points and view it with \"histogram\".\n\n	histogram(diff(ship_pg, dims=1), W=0.1, G=:black, x_off=5, y_off=3.75, frame=0, title=\"Ship\", U=\"L/-1.75i/-1.25i/\\\"Example 3b in Cookbook\\\"\", figsize=7.5)\n	histogram!(diff(sat_pg, dims=1), W=0.1, G=:black, x_off=12.5, frame=0, title=\"Ship\", figsize=7.5)\n\n	# This experience shows that the satellite values are spaced fairly evenly, with\n	# delta-p between 3.222 and 3.418.  The ship values are spaced quite unevenly, with\n	# delta-p between 0.095 and 9.017.  This means that when we want 1 km even sampling,\n	# we can use \"gmt sample1d\" to interpolate the sat data, but the same procedure applied\n	# to the ship data could alias information at shorter wavelengths.  So we have to use\n	# \"filter1d\" to resample the ship data.  Also, since we observed spikes in the ship\n	# data, we use a median filter to clean up the ship values.  We will want to use \"paste\"\n	# to put the two sampled data sets together, so they must start and end at the same\n	# point, without NaNs.  So we want to get a starting and ending point which works for\n	# both of them.  This is a job for gmt gmtmath UPPER/LOWER.\n\n	sampr1 = gmt(\"gmtmath ? -Ca -Sf -o0 UPPER CEIL =\",  [ship_pg[1:1,:]; sat_pg[1:1,:]])\n	sampr2 = gmt(\"gmtmath ? -Ca -Sf -o0 LOWER FLOOR =\", [ship_pg[end:end,:]; sat_pg[end:end,:]])\n\n	# Now we can use sampr1|2 in gmt gmtmath to make a sampling points file for gmt sample1d:\n	samp_x = gmt(@sprintf(\"gmtmath -T%d/%d/1 -N1/0 T =\", sampr1[1].data[1,1], sampr2[1].data[1,1]))\n\n	# Now we can resample the gmt projected satellite data:\n	samp_sat_pg = sample1d(sat_pg, samp_x, N=true)\n\n	# For reasons above, we use gmt filter1d to pre-treat the ship data.  We also need to sample\n	# it because of the gaps > 1 km we found. So we use gmt filter1d | gmt sample1d.  We also\n	# use the -E on gmt filter1d to use the data all the way out to sampr1/sampr2 :\n	t = gmt(@sprintf(\"filter1d -Fm1 -T%d/%d/1 -E\", sampr1[1].data[1], sampr2[1].data[1]), ship_pg)\n	samp_ship_pg = sample1d(t, samp_x, N=true, savefig=\"example_03b\", show=1)\n\n	# Now we plot them again to see if we have done the right thing:\n	plot(sat_pg, region=R, U=\"L/-1.75i/-1.25i/\\\"Example 3c in Cookbook\\\"\", frame=(axes=:WeSn,\n		xaxis=(annot=500, ticks=100, label=\"Distance along great circle\"), yaxis=(annot=100, ticks=25,\n        label=\"Gravity anomaly (mGal)\")), x_off=5, y_off=3.75, W=:thick, figsize=(20,12.7))\n	plot!(samp_ship_pg, S=\"p0.03i\", savefig=\"example_03c\", show=1)\n\n	# Now to do the cross-spectra, assuming that the ship is the input and the sat is the output \n	# data, we do this:\n	t = [samp_ship_pg[1].data[:,2] samp_sat_pg[1].data[:,2]]\n	spects = spectrum1d(t, S=256, D=1, W=true, C=true, N=true)\n \n	# Now we want to plot the spectra. The following commands will plot the ship and sat \n	# power in one diagram and the coherency on another diagram, both on the same page.  \n	# Note the extended use of gmt pstext and gmt psxy to put labels and legends directly on the\n	# plots. For that purpose we often use -Jx1i and specify positions in inches directly:\n\n	plot(spects[1].data[:,[1,16,17]], region=(1,1000,0,1), frame=(axes=WeSn, bg=(240,255,240), xaxis=(annot=1, ticks=3, p=[], label=\"Wavelength (km)\"), yaxis=(annot=0.25, ticks=0.05, label=\"Coherency@+2@+\")), \n		x_off=\"2.5i\", y_off=\"1.5i\", S=\"c0.07i\", G=:purple, E=\"y/0.5p\", figsize=(\"-4il\", \"3.75i\"))\n	\n	text!(text_record(\"Coherency@+2@+\"), F=\"+cTR+f18p,Helvetica-Bold\", D=\"j0.1i\")\n\n	plot!(spects[1].data[:,1:3], region=(1,1000,0.1,10000), frame=(axes=WeSn, title=\"Ship and Satellite Gravity\", bg=(240,255,240), xaxis=(annot=1, ticks=3, p=[]), yaxis=(annot=0.25, ticks=0.05, label=\"Power (mGal@+2@+km)\")), G=:red, S=\"T0.07i\", y_off=\"4.2i\", E=\"y/0.5p\", figsize=(\"-4il\",\"3.75il\"))\n\n	plot!(spects[1].data[:,[1,4,5]], G=:blue, S=\"c0.07i\", E=\"y/0.5p\")\n	text!(text_record(\"Input Power\"), region=(0,4,0,3.75), F=\"+cTR+f18p,Helvetica-Bold\", D=\"j0.1i\", scale=\"1i\")\n\n	leg = text_record([\"S 0.1i T 0.07i red - 0.3i Ship\", \"S 0.1i c 0.07i blue - 0.3i Satellite\"])\n	legend!(leg, D=\"jBL+w1.2i+o0.25i\", F=\"+gwhite+pthicker\", par=(FONT_ANNOT_PRIMARY=\"14,Helvetica-Bold\",), savefig=\"example_03\", show=1)\n\n	# Now we wonder if removing that large feature at 250 km would make any difference.\n	# We could throw away a section of data with $AWK or sed or head and tail, but we\n	# demonstrate the use of \"gmt trend1d\" to identify outliers instead.  We will fit a\n	# straight line to the samp_ship.pg data by an iteratively-reweighted method and\n	# save the weights on output.  Then we will plot the weights and see how things look:\n\n	samp_ship_xw = trend1d(samp_ship_pg, F=:xw, N=\"p2+r\")\n	plot(samp_ship_pg, region=R, U=\"L/-1.75i/-1.25i/\\\"Example 3c in Cookbook\\\"\", frame=(axes=:WeSn,\n		xaxis=(annot=500, ticks=100, label=\"Distance along great circle\"), yaxis=(annot=100, ticks=25,\n        label=\"Gravity anomaly (mGal)\")), x_off=5, y_off=3.75, S=\"p0.03i\", figsize=(20.3,10.2))\n\n	R = gmtinfo(samp_ship_xw, I=(100,1.1))\n	plot!(samp_ship_xw, region=R[1].text[1], y_off=\"4.25i\", frame=(axes=:Wesn, xaxis=(ticks=100,), yaxis=(annot=0.5, ticks=0.1, label=:Weight)), S=\"p0.03i\", figsize=(\"8i\",\"4.25i\"), savefig=\"example_03d\", show=1)See also GMT ex03"
+},
+
+{
+    "location": "gallery/historic/ex04.html#",
+    "page": "A 3-D perspective mesh plot",
+    "title": "A 3-D perspective mesh plot",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex04.html#A-3-D-perspective-mesh-plot-1",
+    "page": "A 3-D perspective mesh plot",
+    "title": "A 3-D perspective mesh plot",
+    "category": "section",
+    "text": "    C = makecpt(cmap=(255,100), range=(-10,10,10), no_bg=true)\n\n    grdcontour(\"@HI_geoid_04.nc\", region=(195,210,18,25), view=(60,30), cont=1,\n               annot=(int=5, labels=(rounded=true,)), labels=(dist=10,),\n               x_off=3, y_off=3, proj=:merc, figscale=1.1)\n    coast!(p=true, frame=(annot=2, axes=:NEsw), land=:black,\n           rose=(inside=true, anchor=:BR, width=2.5, offset=0.25, label=true))\n    grdview!(\"@HI_topo_04.nc\", p=true, region=(195,210,18,25,-6,4),\n             plane=(-6,:lightgray), surftype=(surf=true,mesh=true), Jz=\"0.9\",\n             frame=(axes=:wesnZ, annot=2), zaxis=(annot=2, label=\"Topo (km)\"), y_off=5.6)\n    text!(text_record([7.5 14.0], \"H@#awaiian@# R@#idge@#\"), region=(0,21,0,28),\n          attrib=(font=(60,\"ZapfChancery-MediumItalic\"), justify=:CB),\n          proj=:linear, figscale=1, show=1)See also GMT ex04"
+},
+
+{
+    "location": "gallery/historic/ex05.html#",
+    "page": "A 3-D illuminated surface",
+    "title": "A 3-D illuminated surface",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex05.html#A-3-D-illuminated-surface-1",
+    "page": "A 3-D illuminated surface",
+    "title": "A 3-D illuminated surface",
+    "category": "section",
+    "text": " 	Gsombrero = gmt(\"grdmath -R-15/15/-15/15 -I0.3 X Y HYPOT DUP 2 MUL PI MUL 8 DIV COS EXCH NEG 10 DIV EXP MUL =\");\n	C = makecpt(color=128, range=(-5,5), no_bg=true);\n	grdview(Gsombrero, limits=(-15,15,-15,15,-1,1), frame=(axes=\"SEwnZ\", annot=5),\n	        zaxis=(annot=0.5,), plane=(-1, :white), surftype=:surface,\n			shade=(azim=225, norm=\"t0.75\"), figsize=12, zsize=5, view=(120,30))\n\n	title = text_record([7.5 12], \"z(r) = cos (2@~p@~r/8) @~\\\\327@~e@+-r/10@+\");\n	pstext!(title, limits=(0,21,0,28), proj=:linear,\n	        attrib=(font=(50,\"ZapfChancery-MediumItalic\"), justify=:CB), scale=1, show=true)See also GMT ex05"
+},
+
+{
+    "location": "gallery/historic/ex06.html#",
+    "page": "Plotting of histograms",
+    "title": "Plotting of histograms",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex06.html#Plotting-of-histograms-1",
+    "page": "Plotting of histograms",
+    "title": "Plotting of histograms",
+    "category": "section",
+    "text": "	rose(\"@fractures_06.txt\", limits=(0,1,0,360), swap_xy=true, sector=\"10r\", radius=:n,\n         fill=:orange, x_off=4, xaxis=(annot=0.2, grid=0.2), yaxis=(annot=30, grid=30),\n         axis=(fill=:lightblue,), figsize=9, pen=1)\n\n	histogram!(\"@v3206_06.txt\", limits=(-6000,0,0,30), y_off=12, x_off=-1.0, pen=1,\n               xaxis=(annot=2000, ticks=1000, label=\"Topography (m)\"),\n               yaxis=(annot=10, ticks=5, label=:Frequency, suffix=\" %\"),\n               axis=(axes=:WSne, title=:Histograms, fill=:lightblue), fill=:orange,\n               kind=(freq=true,), bin=250, proj=:linear, figsize=(12,6), show=true)See also GMT ex06"
+},
+
+{
     "location": "monolitic.html#",
     "page": "Monolithic",
     "title": "Monolithic",
