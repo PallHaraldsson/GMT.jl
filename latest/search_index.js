@@ -501,7 +501,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Historical collection",
     "title": "Historical collection",
     "category": "page",
-    "text": "Contour maps Image presentations Spectral estimation\n(Image: ) (Image: ) (Image: )3-D perspective mesh plot 3-D illuminated surface Plotting of histograms\n(Image: ) (Image: ) (Image: )"
+    "text": "Contour maps Image presentations Spectral estimation\n(Image: ) (Image: ) (Image: )3-D perspective mesh plot 3-D illuminated surface Plotting of histograms\n(Image: ) (Image: ) (Image: )A simple location map A 3-D histogram Time-series along tracks\n(Image: ) (Image: ) (Image: )"
 },
 
 {
@@ -533,7 +533,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Make a 3D bar plot with constant color",
     "title": "Make a 3D bar plot with constant color",
     "category": "section",
-    "text": "Create a 3x3 gridG = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");Plot that grid as 3D prismsbar3(G,                 # \'G\' is the grid created above\n     fill=(0,115,190),  # Fill prisms with this RGB color\n     lw=:thinnest,      # Line thickness (0.25 pt)\n     figsize=14,        # Set fig width of 14 cm\n     fmt=:png,          # The image format\n     show=true)         # Show the resultAs one-liners (to facilitate copy-paste):G = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");\nbar3(G, fill=(0,115,190), lw=:thinnest, figsize=14, fmt=:png, show=true)<img src=\"../scripts_agu/figs/bars_3D.png\" width=\"600\" class=\"center\"/>"
+    "text": "Create a 3x3 gridG = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");Plot that grid as 3D prismsbar3(G,                 # \'G\' is the grid created above\n     fill=[0,115,190],  # Fill prisms with this RGB color\n     lw=:thinnest,      # Line thickness (0.25 pt)\n     figsize=14,        # Set fig width of 14 cm\n     fmt=:png,          # The image format\n     show=true)         # Show the resultAs one-liners (to facilitate copy-paste):G = gmt(\"grdmath -R0/2/0/2 -I1 X Y R2 NEG EXP X MUL =\");\nbar3(G, fill=[0,115,190], lw=:thinnest, figsize=14, fmt=:png, show=true)<img src=\"../scripts_agu/figs/bars_3D.png\" width=\"600\" class=\"center\"/>"
 },
 
 {
@@ -742,6 +742,54 @@ var documenterSearchIndex = {"docs": [
     "title": "Plotting of histograms",
     "category": "section",
     "text": "	rose(\"@fractures_06.txt\", limits=(0,1,0,360), swap_xy=true, sector=\"10r\", radius=:n,\n         fill=:orange, x_off=4, xaxis=(annot=0.2, grid=0.2), yaxis=(annot=30, grid=30),\n         axis=(fill=:lightblue,), figsize=9, pen=1)\n\n	histogram!(\"@v3206_06.txt\", limits=(-6000,0,0,30), y_off=12, x_off=-1.0, pen=1,\n               xaxis=(annot=2000, ticks=1000, label=\"Topography (m)\"),\n               yaxis=(annot=10, ticks=5, label=:Frequency, suffix=\" %\"),\n               axis=(axes=:WSne, title=:Histograms, fill=:lightblue), fill=:orange,\n               kind=(freq=true,), bin=250, proj=:linear, figsize=(12,6), show=true)See also GMT ex06"
+},
+
+{
+    "location": "gallery/historic/ex07.html#",
+    "page": "A simple location map",
+    "title": "A simple location map",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex07.html#A-simple-location-map-1",
+    "page": "A simple location map",
+    "title": "A simple location map",
+    "category": "section",
+    "text": "    coast(region=(-50,0,-10,20), water=:lightblue, land=\"P300/26:FtanBdarkbrown\",\n          res=:low, shore=:thinnest, frame=(annot=10,), proj=:Mercator, figsize=18,\n          par=(:FORMAT_GEO_MAP, :dddF))\n    plot!(\"@fz_07.txt\", pen=\"thinner,-\")\n    scatter!(\"@quakes_07.txt\", h=1, i=\"0,1,2s0.01\", marker=:circle, fill=:red,\n             markerline=:thinnest, MarkerSize=\"3p\")\n    plot!(\"@isochron_07.txt\", pen=\"thin,blue\")\n    plot!(\"@ridge_07.txt\", pen=(:thicker,:orange))\n    legend!(text_record(\"S 0.1i c 0.08i red thinnest 0.3i ISC Earthquakes\"),\n            pos=(inside=true, anchor=:TR, width=5.6, offset=0.5),\n            box=(pen=:thick,inner=:thinner,fill=:white),\n            par=(:FONT_ANNOT_PRIMARY, \"18p,Times-Italic\"))\n    text!(text_record([-43 -5; -43 -8; -7 11], [\"SOUTH\", \"AMERICA\", \"AFRICA\"]),\n          attrib=(font=(20,\"Helvetica-Bold\",\"white=thin\"),), show=1)\nSee also GMT ex07"
+},
+
+{
+    "location": "gallery/historic/ex08.html#",
+    "page": "A 3-D histogram",
+    "title": "A 3-D histogram",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex08.html#A-3-D-histogram-1",
+    "page": "A 3-D histogram",
+    "title": "A 3-D histogram",
+    "category": "section",
+    "text": "    bar3(\"@guinea_bay.nc\", grd=true,\n         frame=(annot=1, axes=:WSneZ, title=:ETOPO5, cube=true),\n         zaxis=(annot=1000, label=\"Topography (m)\"), fill=:lightgreen,\n         lw=:thinnest, proj=:Mercator, figsize=12, zsize=13, view=(200,30))\n    text!(text_record([0.1 4.7], \"This is the surface of cube\"), JZ=true, Z=0,\n          attrib=(font=(24,\"Helvetica-Bold\"),justify=:TL), view=true, show=1)See also GMT ex08"
+},
+
+{
+    "location": "gallery/historic/ex09.html#",
+    "page": "Time-series along tracks",
+    "title": "Time-series along tracks",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex09.html#Time-series-along-tracks-1",
+    "page": "Time-series along tracks",
+    "title": "Time-series along tracks",
+    "category": "section",
+    "text": "    wiggle(\"@tracks_09.txt\", limits=(185,250,-68,-42), proj=:Mercator, figscale=0.27,\n           frame=(axes=:WSne, annot=10,ticks=5, fill=[240 255 240]), G=\"+red -G-blue\",\n           S=\"240/-67/500/@~m@~rad\", scale=800, pen=:thinnest, par=(:FORMAT_GEO_MAP,:dddF))\n    plot!(\"@ridge_09.txt\", pen=:thicker)\n    plot!(\"@fz_09.txt\", pen=\"thinner,-\")\n    # Take label from segment header and plot near coordinates of last record of each track\n    t = gmtconvert(\"@tracks_09.txt\", E=:l)\n    for k = 1:length(t)		t[k].text = [t[k].header]	end\n    text!(t, attrib=(font=(8,\"Helvetica-Bold\"), angle=50, justify=:RM, horizontal=true),\n          offset=(-0.1,-0.1), show=true)See also GMT ex09"
 },
 
 {
@@ -1141,7 +1189,7 @@ var documenterSearchIndex = {"docs": [
     "page": "bar3",
     "title": "bar3",
     "category": "section",
-    "text": "bar3(cmd0::String=\"\", arg1=[]; kwargs...)Plots a 3D bar graph. The input can either be a file name of a file with at least three columns (x,y,z), but optionally more, a GMTdatset object with also three or more columns. However, the simplest usage is to provide a grid object (a GMTgrid) or a MxN matrix (with M,N > 3) and accept the defaults set for these data types. When not using grids or matrices the width keyword (see below) is mandatory, unless both xsize and ysize are given as two extra data columns.This module is a subset of plot to make it simpler to draw 3D bar plots. So not all (fine) controlling parameters are listed here. For a finer control, user should consult the plot module."
+    "text": "bar3(cmd0::String=\"\", arg1=nothing; kwargs...)Plots a 3D bar graph. The input can either be a file name of a file with at least three columns (x,y,z), but optionally more, a GMTdatset object with also three or more columns. However, the simplest usage is to provide a grid object (a GMTgrid) or a MxN matrix (with M,N > 3) and accept the defaults set for these data types. When not using grids or matrices the width keyword (see below) is mandatory, unless both xsize and ysize are given as two extra data columns.This module is a subset of plot to make it simpler to draw 3D bar plots. So not all (fine) controlling parameters are listed here. For a finer control, user should consult the plot module."
 },
 
 {
@@ -1157,7 +1205,7 @@ var documenterSearchIndex = {"docs": [
     "page": "bar3",
     "title": "Examples",
     "category": "section",
-    "text": "A simple scatter of ten points plotted as red circles of 7 points sizeG = gmt(\"grdmath -R-15/15/-15/15 -I0.5 X Y HYPOT DUP 2 MUL PI MUL 8 DIV COS EXCH NEG 10 DIV EXP MUL =\");\ncmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)"
+    "text": "View a grid as a 3D bar plotG = gmt(\"grdmath -R-15/15/-15/15 -I0.5 X Y HYPOT DUP 2 MUL PI MUL 8 DIV COS EXCH NEG 10 DIV EXP MUL =\");\ncmap = grd2cpt(G);      # Compute a colormap with the grid\'s data range\nbar3(G, lw=:thinnest, color=cmap, fmt=:png, show=true)"
 },
 
 {
