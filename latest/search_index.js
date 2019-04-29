@@ -501,7 +501,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Historical collection",
     "title": "Historical collection",
     "category": "page",
-    "text": "Contour maps Image presentations Spectral estimation\n(Image: ) (Image: ) (Image: )3-D perspective mesh plot 3-D illuminated surface Plotting of histograms\n(Image: ) (Image: ) (Image: )A simple location map A 3-D histogram Time-series along tracks\n(Image: ) (Image: ) (Image: )"
+    "text": "Contour maps Image presentations Spectral estimation\n(Image: ) (Image: ) (Image: )3-D perspective mesh plot 3-D illuminated surface Plotting of histograms\n(Image: ) (Image: ) (Image: )A simple location map A 3-D histogram Time-series along tracks\n(Image: ) (Image: ) (Image: )A geographical bar graph A 3-D RGB color cube Optimal triangulation of data\n(Image: ) (Image: ) (Image: )"
 },
 
 {
@@ -677,7 +677,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Image presentations",
     "title": "Image presentations",
     "category": "section",
-    "text": "	# Purpose:	Make two color images based gridded data\n	# GMT progs:	gmtset, grd2cpt, grdgradient, grdimage, makecpt, colorbar, pstext\n\n	gmtset(FONT_TITLE=30, MAP_ANNOT_OBLIQUE=0)\n	g_cpt = makecpt(color=:rainbow, T=(-2,14,2))\n	grdimage(\"@HI_geoid_02.nc\", region=(bb=(160,220,20,30), diag=true),\n	         proj=(name=:omercp, center=[190 25.5], parallels=[292 69]),\n	         color=g_cpt, dpi=50, frame=(annot=10,), x_off=3.8, y_off=3.2, figsize=12)\n	colorbar!(g_cpt, pos=(anchor=:RM, offset=(1.5,0), triangles=true, neon=true),\n	          xaxis=(annot=2, label=:GEOID), yaxis=(label=:m,))\n	t_cpt = grd2cpt(\"@HI_topo_02.nc\", cmap=:relief, continuous=true)\n	grdimage!(\"@HI_topo_02.nc\", frame=(title=\"H@#awaiian@# T@#opo and @#G@#eoid@#\", annot=10),\n	          shade=\"+a0\", dpi=50, color=t_cpt, y_off=11, par=(:MAP_TITLE_OFFSET, 1.25))\n	colorbar!(t_cpt, pos=(anchor=:RM, offset=(1.5,0), neon=true), shade=0.3,\n	          xaxis=(annot=2, label=:TOPO), yaxis=(label=:km,))\n	T = text_record([-0.4 7.5; -0.4 3.0], [\"a)\", \"b)\"])\n	pstext!(T, region=(0,21.6,0,29.94), text=(font=(30,\"Helvetica-Bold\"), justify=:CB),\n	        y_off=12, proj=:linear, scale=1, show=1)See also GMT ex02"
+    "text": "	# Purpose:	Make two color images based gridded data\n	# GMT progs:	gmtset, grd2cpt, grdgradient, grdimage, makecpt, colorbar, pstext\n\n	gmtset(FONT_TITLE=30, MAP_ANNOT_OBLIQUE=0)\n	g_cpt = makecpt(color=:rainbow, T=(-2,14,2))\n	grdimage(\"@HI_geoid_02.nc\", region=(bb=(160,220,20,30), diag=true),\n	         proj=(name=:omercp, center=[190 25.5], parallels=[292 69]),\n	         color=g_cpt, dpi=50, frame=(annot=10,), x_off=3.8, y_off=3.2, figsize=12)\n	colorbar!(g_cpt, pos=(anchor=:RM, offset=(1.5,0), triangles=true, neon=true),\n	          xaxis=(annot=2, label=:GEOID), yaxis=(label=:m,))\n	t_cpt = grd2cpt(\"@HI_topo_02.nc\", cmap=:relief, continuous=true)\n	grdimage!(\"@HI_topo_02.nc\", frame=(title=\"H@#awaiian@# T@#opo and @#G@#eoid@#\", annot=10),\n	          shade=\"+a0\", dpi=50, color=t_cpt, y_off=11, par=(:MAP_TITLE_OFFSET, 1.25))\n	colorbar!(t_cpt, pos=(anchor=:RM, offset=(1.5,0), neon=true), shade=0.3,\n	          xaxis=(annot=2, label=:TOPO), yaxis=(label=:km,))\n	T = text_record([-0.4 7.5; -0.4 3.0], [\"a)\", \"b)\"])\n	text!(T, region=(0,21.6,0,29.94), attrib=(font=(30,\"Helvetica-Bold\"), justify=:CB),\n	      y_off=12, proj=:linear, scale=1, show=1)See also GMT ex02"
 },
 
 {
@@ -709,7 +709,7 @@ var documenterSearchIndex = {"docs": [
     "page": "A 3-D perspective mesh plot",
     "title": "A 3-D perspective mesh plot",
     "category": "section",
-    "text": "    C = makecpt(cmap=(255,100), range=(-10,10,10), no_bg=true)\n\n    grdcontour(\"@HI_geoid_04.nc\", region=(195,210,18,25), view=(60,30), cont=1,\n               annot=(int=5, labels=(rounded=true,)), labels=(dist=10,),\n               x_off=3, y_off=3, proj=:merc, figscale=1.1)\n    coast!(p=true, frame=(annot=2, axes=:NEsw), land=:black,\n           rose=(inside=true, anchor=:BR, width=2.5, offset=0.25, label=true))\n    grdview!(\"@HI_topo_04.nc\", p=true, region=(195,210,18,25,-6,4),\n             plane=(-6,:lightgray), surftype=(surf=true,mesh=true), Jz=\"0.9\",\n             frame=(axes=:wesnZ, annot=2), zaxis=(annot=2, label=\"Topo (km)\"), y_off=5.6)\n    text!(text_record([7.5 14.0], \"H@#awaiian@# R@#idge@#\"), region=(0,21,0,28),\n          attrib=(font=(60,\"ZapfChancery-MediumItalic\"), justify=:CB),\n          proj=:linear, figscale=1, show=1)See also GMT ex04"
+    "text": "    C = makecpt(cmap=(255,100), range=(-10,10,10), no_bg=true)\n\n    grdcontour(\"@HI_geoid_04.nc\", region=(195,210,18,25), view=(60,30), cont=1,\n               annot=(int=5, labels=(rounded=true,)), labels=(dist=10,),\n               x_off=3, y_off=3, proj=:merc, figscale=1.1)\n    coast!(p=true, frame=(annot=2, axes=:NEsw), land=:black,\n           rose=(inside=true, anchor=:BR, width=2.5, offset=0.25, label=true))\n    grdview!(\"@HI_topo_04.nc\", p=true, region=(195,210,18,25,-6,4),\n             plane=(-6,:lightgray), surftype=(surf=true,mesh=true), Jz=\"0.9\",\n             frame=(axes=:wesnZ, annot=2), zaxis=(annot=2, label=\"Topo (km)\"), y_off=5.6)\n    text!(text_record([7.5 14.0], \"H@#awaiian@# R@#idge@#\"), region=(0,21,0,28),\n          attrib=(font=(60,\"ZapfChancery-MediumItalic\"), justify=:CB),\n          proj=:linear, view=:none, figscale=1, show=1)See also GMT ex04"
 },
 
 {
@@ -725,7 +725,7 @@ var documenterSearchIndex = {"docs": [
     "page": "A 3-D illuminated surface",
     "title": "A 3-D illuminated surface",
     "category": "section",
-    "text": " 	Gsombrero = gmt(\"grdmath -R-15/15/-15/15 -I0.3 X Y HYPOT DUP 2 MUL PI MUL 8 DIV COS EXCH NEG 10 DIV EXP MUL =\");\n	C = makecpt(color=128, range=(-5,5), no_bg=true);\n	grdview(Gsombrero, limits=(-15,15,-15,15,-1,1), frame=(axes=\"SEwnZ\", annot=5),\n	        zaxis=(annot=0.5,), plane=(-1, :white), surftype=:surface,\n			shade=(azim=225, norm=\"t0.75\"), figsize=12, zsize=5, view=(120,30))\n\n	title = text_record([7.5 12], \"z(r) = cos (2@~p@~r/8) @~\\\\327@~e@+-r/10@+\");\n	pstext!(title, limits=(0,21,0,28), proj=:linear,\n	        attrib=(font=(50,\"ZapfChancery-MediumItalic\"), justify=:CB), scale=1, show=true)See also GMT ex05"
+    "text": " 	Gsombrero = gmt(\"grdmath -R-15/15/-15/15 -I0.3 X Y HYPOT DUP 2 MUL PI MUL 8 DIV COS EXCH NEG 10 DIV EXP MUL =\");\n	C = makecpt(color=128, range=(-5,5), no_bg=true);\n	grdview(Gsombrero, limits=(-15,15,-15,15,-1,1), frame=(axes=\"SEwnZ\", annot=5),\n	        zaxis=(annot=0.5,), plane=(-1, :white), surftype=:surface,\n			shade=(azim=225, norm=\"t0.75\"), figsize=12, zsize=5, view=(120,30))\n\n	title = text_record([7.5 12], \"z(r) = cos (2@~p@~r/8) @~\\\\327@~e@+-r/10@+\");\n	pstext!(title, limits=(0,21,0,28), proj=:linear, view=:none,\n	        attrib=(font=(50,\"ZapfChancery-MediumItalic\"), justify=:CB), scale=1, show=true)See also GMT ex05"
 },
 
 {
@@ -790,6 +790,54 @@ var documenterSearchIndex = {"docs": [
     "title": "Time-series along tracks",
     "category": "section",
     "text": "    wiggle(\"@tracks_09.txt\", limits=(185,250,-68,-42), proj=:Mercator, figscale=0.27,\n           frame=(axes=:WSne, annot=10,ticks=5, fill=[240 255 240]), G=\"+red -G-blue\",\n           S=\"240/-67/500/@~m@~rad\", scale=800, pen=:thinnest, par=(:FORMAT_GEO_MAP,:dddF))\n    plot!(\"@ridge_09.txt\", pen=:thicker)\n    plot!(\"@fz_09.txt\", pen=\"thinner,-\")\n    # Take label from segment header and plot near coordinates of last record of each track\n    t = gmtconvert(\"@tracks_09.txt\", E=:l)\n    for k = 1:length(t)		t[k].text = [t[k].header]	end\n    text!(t, attrib=(font=(8,\"Helvetica-Bold\"), angle=50, justify=:RM, horizontal=true),\n          offset=(-0.1,-0.1), show=true)See also GMT ex09"
+},
+
+{
+    "location": "gallery/historic/ex10.html#",
+    "page": "A geographical bar graph plot",
+    "title": "A geographical bar graph plot",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex10.html#A-geographical-bar-graph-plot-1",
+    "page": "A geographical bar graph plot",
+    "title": "A geographical bar graph plot",
+    "category": "section",
+    "text": "coast(region=:global, shore=:faint, land=:wheat, ocean=:azure2, area=5000,\n      frame=:none, portrait=false, view=(200,40), figsize=20,\n      proj=(name=:PlateCarree, center=(0,37.5)))\nD = gmtread(\"@languages_10.txt\", table=true)\ntmp = [D[1].data[:,1:2] sum(D[1].data[:, 3:end], dims=2)]\ntext!(tmp, attrib=(font=(30,\"Helvetica-Bold\",\"firebrick=thinner\"), justify=:RM),\n      fill=\"white@30\", offset=(-0.6,0))\ncpt = makecpt(color=(:purple, :blue, :darkgreen, :yellow, :red), range=\"0,1,2,3,4,5\")\nbar3!(D, region=(-180,180,-90,90,0,2500), color=cpt, bar=(width=0.8, Nbands=5),\n      frame=(axes=:WSneZ, annot=:auto, ticks=:auto, title=\"World Languages By Continent\"),\n      zaxis=(annot=500, label=:Languages), G=:purple, W=:thinner, zsize=8,\n      par=(FONT_TITLE=\"30p,Times-Bold\", MAP_TITLE_OFFSET=-1.8, FORMAT_GEO_MAP=:dddF))\nlegend!(\"@legend_10.txt\", JZ=true, pos=(anchor=:LB, width=3.5, justify=:LB, offset=0.5),\n        par=(:FONT,\"Helvetica-Bold\"),\n        box=(fill=:lightgrey, pen=:thinner, shaded=\"-4p/-6p/grey20@40\"), show=true)See also GMT ex10"
+},
+
+{
+    "location": "gallery/historic/ex11.html#",
+    "page": "A 3-D RGB color cube",
+    "title": "A 3-D RGB color cube",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex11.html#A-3-D-RGB-color-cube-1",
+    "page": "A 3-D RGB color cube",
+    "title": "A 3-D RGB color cube",
+    "category": "section",
+    "text": "    gmtset(MAP_TICK_LENGTH_PRIMARY=0, FONT_ANNOT_PRIMARY=\"12p,Helvetica-Bold\")\n    side = 6.35\n\n    plot(\"@cut-here_11.txt\", pen=(:thinnest,\"dot\"), region=(-51,306,0,1071),\n         frame=:none, figsize=(8.9,26.7), x_off=side, y_off=1.2)\n\n    # First, create grids of ascending X and Y and constant 0.\n    # These are to be used to represent R, G and B values of the darker 3 faces of the cube.\n    x_nc = gmt(\"grdmath -I1 -R0/255/0/255 X =\")\n    y_nc = gmt(\"grdmath -I1 -R Y =\")\n    c_nc = gmt(\"grdmath -I1 -R 0 =\")\n\n    grdimage!(x_nc, y_nc, c_nc, figsize=(side,-side), proj=:linear, x_off=1.25)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :white, :dashed))\n    T = text_record([128 128 -45; 102  26 -90; 204  26 -90; 10  140 180],\n                    [\"12p 60\\\\217\"; \"12p 0.4\"; \"12p 0.8\"; \"16p G\"])\n    text!(T, par=(:FONT, :white), attrib=(angle=\"\", font=\"\"))\n    arrows!([0 0 0 128], noclip=true, arrow=(len=0.4, stop=true, endpoint=true),\n            pen=(2,:white), fill=:white)\n\n    grdimage!(x_nc, c_nc, y_nc, figsize=(side,side), proj=:linear, y_off=side)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :white, :dashed))\n    T = text_record([128 128 45; 26 102 0; 26 204 0; 140 10 -90; 100 100 -45],\n                    [\"12p 300\\\\217\"; \"12p 0.4\"; \"12p 0.8\"; \"16p R\"; \"16p V\"]);\n    text!(T, par=(:FONT,:white), attrib=(angle=\"\", font=\"\"))\n\n    arrows!([0 0 128 0], noclip=true, arrow=(len=0.4, stop=true, endpoint=true),\n            pen=(2,:white), fill=:white)\n    arrows!([0 0 90 90], noclip=true, arrow=(len=0.4, stop=true, endpoint=true),\n            pen=(2,:white), fill=:white)\n\n    grdimage!(c_nc, x_nc, y_nc, figsize=(-side,side), proj=:linear, x_off=-side)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :white, :dashed))\n    T = text_record([128 128 135; 102  26 90; 204  26 90; 10  140  0],\n                    [\"12p 180\\\\217\"; \"12p 0.4\"; \"12p 0.8\"; \"16p B\"]);\n    text!(T, par=(:FONT,:white), attrib=(angle=\"\", font=\"\"))\n\n    arrows!([0 0 0 128], noclip=true, arrow=(len=0.4, stop=true, endpoint=true),\n            pen=(2,:white), fill=:white)\n    arrows!([0 0 128 0], noclip=true, arrow=(len=0.4, stop=true, endpoint=true),\n            pen=(2,:white), fill=:white)\n\n    # Second, create grids of descending X and Y and constant 255.\n    # These are to be used to represent R, G and B values of the lighter 3 faces of the cube.\n\n    x_nc = gmt(\"grdmath -I1 -R 255 X SUB =\")\n    y_nc = gmt(\"grdmath -I1 -R 255 Y SUB =\")\n    c_nc = gmt(\"grdmath -I1 -R 255       =\")\n\n    grdimage!(x_nc, y_nc, c_nc, figsize=(-side,-side), proj=:linear, x_off=side, y_off=side)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :black, :dashed))\n    T = text_record([128 128 225; 102  26 270; 204  26 270], [\"12p 240\\\\217\"; \"12p 0.4\"; \"12p 0.8\"])\n    text!(T, attrib=(angle=\"\", font=\"\"))\n\n    grdimage!(c_nc, y_nc, x_nc, figsize=(side,-side), proj=:linear, x_off=side)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :black, :dashed))\n    T = text_record([128 128 -45; 26 102 0; 26 204 0; 100 100  45; 204 66 90], [\"12p 0\\\\217\"; \"12p 0.4\"; \"12p 0.8\"; \"16p S\"; \"16p H\"])\n    text!(T, attrib=(angle=\"\", font=\"\"))\n\n    arrows!([0 0 90 90], noclip=true, arrow=(len=0.4, stop=true, endpoint=true), pen=2, fill=:black)\n    arrows!([204 204 204 76], noclip=true, arrow=(len=0.4, stop=true, endpoint=true), pen=2, fill=:black)\n\n    grdimage!(x_nc, c_nc, y_nc, figsize=(-side,side), proj=:linear, x_off=-side, y_off=side)\n    plot!(\"@rays_11.txt\", pen=(:thinner, :black, :dashed))\n    T = text_record([128 128 135; 26  102 180; 26  204 180; 200 200 225], [\"12p 120\\\\217\"; \"12p 0.4\"; \"12p 0.8\"; \"16p GMT\"])\n    text!(T, attrib=(angle=\"\", font=\"\"), show=1)See also GMT ex11"
+},
+
+{
+    "location": "gallery/historic/ex12.html#",
+    "page": "Optimal triangulation of data",
+    "title": "Optimal triangulation of data",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "gallery/historic/ex12.html#Optimal-triangulation-of-data-1",
+    "page": "Optimal triangulation of data",
+    "title": "Optimal triangulation of data",
+    "category": "section",
+    "text": "    table_5 = gmtread(\"@table_5.11\", table=true)    # The data used in this example\n    net_xy = triangulate(table_5, network=true);\n    plot(net_xy, region=(0,6.5,-0.2,6.5), frame=(axes=:WSNe, annot=2, ticks=1),\n         lw=:thinner, figsize=(7.8, 8), x_off=2.3, y_off=11.8)\n    plot!(table_5, marker=:circle, ms=0.3, fill=:white, MarkerLine=:thinnest)\n    text!(table_5, attrib=(font=(6,), rec_number=0))\n\n    # Then draw network and print the node values\n    plot!(net_xy, frame=(axes=:eSNw, annot=2, ticks=1), lw=:thinner, x_off=8.4)\n    plot!(table_5, marker=:circle, ms=0.08, fill=:black)\n    text!(table_5, attrib=(font=(6,), justify=:LM), fill=:white, pen=\"\",\n          clearance=0.03, offset=(0.2,0), noclip=true)\n\n    # Then contour the data and draw triangles using dashed pen\n    # Use \"gmtinfo\" and \"makecpt\" to make a color palette,\n    # but since gmtinfo -T reports a leading \"-T\" we need to strip it\n    T = gmtinfo(table_5, nearest_multiple=(dz=25, col=2))\n    makecpt(color=:jet, range=T[1].text[1][3:end])  # Make it also the current cmap\n    contour!(table_5, frame=(axes=:WSne, annot=2, ticks=1), pen=:thin,\n             mesh=(:thinnest,:dashed), labels=(dist=2.5,), x_off=-8.4, y_off=-9.3)\n    contour!(table_5, frame=(axes=:eSnw, annot=2, ticks=1), colorize=true, x_off=8.4)\n    text!(text_record([8 20], \"Delaunay Triangulation\"), region=(0,20,0,28),\n          attrib=(font=(30,\"Helvetica-Bold\"), justify=:CB), proj=:linear,\n          figscale=1, x_off=-8.4, show=true)See also GMT ex12"
 },
 
 {
