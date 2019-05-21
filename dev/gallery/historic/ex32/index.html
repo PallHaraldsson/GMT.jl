@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Draping an image over topography · GMT</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link href="../../../assets/documenter.css" rel="stylesheet" type="text/css"/><link href="../../../assets/custom.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>GMT</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../../usage/">Introduction</a></li><li><a class="toctext" href="../../../examples/">Some examples</a></li><li><a class="toctext" href="../../../rectangles/">Draw rectangles examples</a></li><li><a class="toctext" href="../../../frames/">Draw frames examples</a></li><li><a class="toctext" href="../../../proj_examples/">Map projections</a></li><li><span class="toctext">Gallery</span><ul><li><a class="toctext" href="../../tables/">AGU</a></li><li><a class="toctext" href="../../mapprojs/">Map projections</a></li><li><a class="toctext" href="../">Historical collection</a></li></ul></li><li class="current"><a class="toctext" href>Draping an image over topography</a><ul class="internal"></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../../monolitic/">Monolithic</a></li><li><a class="toctext" href="../../../modules/">By Modules</a></li><li><a class="toctext" href="../../../common_opts/">Common options</a></li><li><span class="toctext">General features</span><ul><li><a class="toctext" href="../../../arrows_control/">Vector Attributes</a></li><li><a class="toctext" href="../../../color/">Setting color</a></li><li><a class="toctext" href="../../../decorated/">Line decorations</a></li><li><a class="toctext" href="../../../symbols/">Symbols</a></li></ul></li></ul></li><li><span class="toctext">Modules manuals</span><ul><li><a class="toctext" href="../../../arrows/">arrows</a></li><li><a class="toctext" href="../../../bar/">bar</a></li><li><a class="toctext" href="../../../bar3/">bar3</a></li><li><a class="toctext" href="../../../coast/">coast</a></li><li><a class="toctext" href="../../../grdcontour/">grdcontour</a></li><li><a class="toctext" href="../../../grdimage/">grdimage</a></li><li><a class="toctext" href="../../../grdview/">grdview</a></li><li><a class="toctext" href="../../../lines/">lines</a></li><li><a class="toctext" href="../../../scatter/">scatter</a></li><li><a class="toctext" href="../../../scatter3/">scatter3</a></li><li><a class="toctext" href="../../../solar/">solar</a></li></ul></li><li><a class="toctext" href="../../../types/">The GMT types</a></li><li><a class="toctext" href="../../../">Index</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Draping an image over topography</a></li></ul><a class="edit-page" href="https://github.com/GenericMappingTools/GMT.jl/blob/master/docs/src/gallery/historic/ex32.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Draping an image over topography</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Draping-an-image-over-topography-1" href="#Draping-an-image-over-topography-1">Draping an image over topography</a></h1><pre><code class="language-julia">    # Here we get and convert the flag of Europe directly from the web through grdconvert using
+    # GDAL support. We take into account the dimension of the flag (1000x667 pixels)
+    # for a ratio of 3x2.
+
+    # gmt grdconvert \
+    #   http://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1000px-Flag_of_Europe.svg.png=gd \
+    #   euflag.nc=ns
+    # gmt grdedit euflag.nc -fg $Rflag
+
+    # Now get the topography for the same area from GTOPO30 and store it as@topo_32.nc.
+    # The DEM file comes from http://eros.usgs.gov/#/Find_Data/Products_and_Data_Available/gtopo30/w020n90
+    # We make a gradient grid as well, which we will use to &quot;illuminate&quot; the flag.
+
+    # gmt grdcut W020N90.DEM $Rflag -Gtopo_32.nc=ns
+
+    # The color map assigns &quot;Reflex Blue&quot; to the lower half of the 0-255 range and
+    # &quot;Yellow&quot; to the upper half.
+    makecpt(color=[0 51 153; 255 204 0], range=&quot;0,127,255&quot;, nobg=true)
+
+    grdview(&quot;@topo_32.nc&quot;, region=[3 9 50 54 10 790], proj=:merc, figsize=13, drapefile=&quot;@euflag.nc&quot;, shade=(azim=(0, 270), norm=&quot;e0.6&quot;), surftype=(nan_alpha=true,), zsize=1, frame=:none, view=(157.5, 30))
+
+    # We now add borders. Because we have a 3-D plot, we want them to be plotted &quot;at elevation&quot;.
+    # So we write out the borders, pipe them through grdtack and then plot them with psxyz.
+
+    t = coast!(res=:full, dump=true, borders=1);
+    t = grdtrack(&quot;@topo_32.nc&quot;, t, skip_NaN=:a);
+    plot3d!(t, JZ=1, pen=(1,:white))
+
+    # Finally, we add dots and names for three cities.
+    # Again, gmt grdtrack is used to put the dots &quot;at elevation&quot;.
+    fid = open(&quot;cities.txt&quot;, &quot;w&quot;)
+    println(fid, &quot;05:41:27 50:51:05 Maastricht&quot;)
+    println(fid, &quot;04:21:00 50:51:00 Bruxelles&quot;)
+    println(fid, &quot;07:07:03 50:43:09 Bonn&quot;)
+    close(fid)
+    t = grdtrack(&quot;@topo_32.nc&quot;, &quot;cities.txt&quot;)
+    plot3d!(t, JZ=&quot;&quot;, marker=:circle, ms=&quot;7p&quot;, ml=(1,:white), fill=:red)
+    text!(&quot;cities.txt&quot;, font=(12,&quot;Helvetica-Bold&quot;,:red), justify=:RM, offset=(away=true, shift=(0.25, 0)), show=true)
+    rm(&quot;cities.txt&quot;);</code></pre><p>See also <a href="https://www.generic-mapping-tools.org/gmt/latest/gallery/ex32.html#example-32"><code>GMT ex32</code></a></p><footer><hr/><a class="previous" href="../ex30/"><span class="direction">Previous</span><span class="title">Trigonometric functions plotted in graph mode</span></a><a class="next" href="../ex33/"><span class="direction">Next</span><span class="title">Stacking automatically generated cross-profiles</span></a></footer></article></body></html>
