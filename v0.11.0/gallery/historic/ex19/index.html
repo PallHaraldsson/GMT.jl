@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Color patterns on maps · GMT</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link href="../../../assets/documenter.css" rel="stylesheet" type="text/css"/><link href="../../../assets/custom.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>GMT</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../../usage/">Introduction</a></li><li><a class="toctext" href="../../../examples/">Some examples</a></li><li><a class="toctext" href="../../../rectangles/">Draw rectangles examples</a></li><li><a class="toctext" href="../../../frames/">Draw frames examples</a></li><li><a class="toctext" href="../../../proj_examples/">Map projections</a></li><li><span class="toctext">Gallery</span><ul><li><a class="toctext" href="../../tables/">AGU</a></li><li><a class="toctext" href="../../mapprojs/">Map projections</a></li><li><a class="toctext" href="../">Historical collection</a></li></ul></li><li class="current"><a class="toctext" href>Color patterns on maps</a><ul class="internal"></ul></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../../../monolitic/">Monolithic</a></li><li><a class="toctext" href="../../../modules/">By Modules</a></li><li><a class="toctext" href="../../../common_opts/">Common options</a></li><li><span class="toctext">General features</span><ul><li><a class="toctext" href="../../../arrows_control/">Vector Attributes</a></li><li><a class="toctext" href="../../../color/">Setting color</a></li><li><a class="toctext" href="../../../decorated/">Line decorations</a></li><li><a class="toctext" href="../../../symbols/">Symbols</a></li></ul></li></ul></li><li><span class="toctext">Modules manuals</span><ul><li><a class="toctext" href="../../../arrows/">arrows</a></li><li><a class="toctext" href="../../../bar/">bar</a></li><li><a class="toctext" href="../../../bar3/">bar3</a></li><li><a class="toctext" href="../../../coast/">coast</a></li><li><a class="toctext" href="../../../colorbar/">colorbar</a></li><li><a class="toctext" href="../../../grdcontour/">grdcontour</a></li><li><a class="toctext" href="../../../grdimage/">grdimage</a></li><li><a class="toctext" href="../../../grdgradient/">grdgradient</a></li><li><a class="toctext" href="../../../grdview/">grdview</a></li><li><a class="toctext" href="../../../lines/">lines</a></li><li><a class="toctext" href="../../../plot/">plot</a></li><li><a class="toctext" href="../../../scatter/">scatter</a></li><li><a class="toctext" href="../../../scatter3/">scatter3</a></li><li><a class="toctext" href="../../../solar/">solar</a></li><li><a class="toctext" href="../../../text/">text</a></li></ul></li><li><a class="toctext" href="../../../types/">The GMT types</a></li><li><a class="toctext" href="../../../">Index</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Color patterns on maps</a></li></ul><a class="edit-page" href="https://github.com/GenericMappingTools/GMT.jl/blob/master/docs/src/gallery/historic/ex19.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Color patterns on maps</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Color-patterns-on-maps-1" href="#Color-patterns-on-maps-1">Color patterns on maps</a></h1><pre><code class="language-julia">    Glat = gmt(&quot;grdmath -Rd -I1 -r Y COSD 2 POW =&quot;)
+    Glon = gmt(&quot;grdmath -Rd -I1 -r X =&quot;)
+    lat_cpt = makecpt(color=&quot;white,blue&quot;, range=(0,1), continuous=true, no_bg=true)
+    lon_cpt = makecpt(cmap=:rainbow, range=(-180,180))
+    grdimage(Glat, cmap=lat_cpt, frame=:none, interp=:l, proj=:sinu,
+             figsize=16, y_off=18)
+    coast!(area=5000, clip=:land)
+    grdimage!(Glon, cmap=lon_cpt, interp=:l)
+    coast!(clip=:end)
+    coast!(area=5000, shore=:thinnest)
+    text!(text_record([0 20], &quot;16TH INTERNATIONAL&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;red=thinner&quot;))
+    text!(text_record([0 -10], &quot;GMT CONFERENCE&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;red=thinner&quot;))
+    text!(text_record([0 -30], &quot;Honolulu, Hawaii, April 1, 2019&quot;),
+          font=(18,&quot;Helvetica-Bold&quot;,&quot;green=thinner&quot;))
+
+    # Then show example of color patterns and placing a PostScript image
+    coast!(area=5000, land=(pattern=86, bg=:yellow, fg=:red, dpi=100),
+           water=(pattern=&quot;@circuit.png&quot;, dpi=100), frame=:none, y_off=-8)
+    text!(text_record([0 30], &quot;SILLY USES OF&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;lightgreen=thinner&quot;))
+    text!(text_record([0 -30], &quot;COLOR PATTERNS&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;magenta=thinner&quot;))
+    psimage!(&quot;@GMT_covertext.eps&quot;, D=&quot;jCM+w3i&quot;)
+
+    # Finally repeat 1st plot but exchange the patterns
+    grdimage!(Glon, cmap=lon_cpt, frame=:none, interp=:l, y_off=-8)
+    coast!(area=5000, clip=:land)
+    grdimage!(Glat, cmap=lat_cpt, interp=:l)
+    coast!(clip=:end)
+    coast!(area=5000, shore=:thinnest)
+    text!(text_record([0  20], &quot;15TH INTERNATIONAL&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;red=thinner&quot;))
+    text!(text_record([0 -10], &quot;GMT CONFERENCE&quot;),
+          font=(32,&quot;Helvetica-Bold&quot;,&quot;red=thinner&quot;))
+    text!(text_record([0 -30], &quot;Honolulu, Hawaii, April 1, 2018&quot;),
+          font=(18,&quot;Helvetica-Bold&quot;,&quot;green=thinner&quot;), show=true)</code></pre><p>See also <a href="https://www.generic-mapping-tools.org/gmt/latest/gallery/ex17.html#example-17"><code>GMT ex17</code></a></p><footer><hr/><a class="previous" href="../ex18/"><span class="direction">Previous</span><span class="title">Volumes and Spatial Selections</span></a><a class="next" href="../ex20/"><span class="direction">Next</span><span class="title">Custom plot symbols</span></a></footer></article></body></html>
