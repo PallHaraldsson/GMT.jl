@@ -6,6 +6,6 @@ rect = [1 1; 1 7; 4 7; 4 1; 1 1];
 plot(rect, region=[0 10 0 10], lw=1, fill=&quot;p20+bgreen+r200&quot;, axis=:a, axis=:equal)
 plot!([4 0].+rect, lw=1, fill=&quot;p89+r200&quot;, fmt=:png, show=true)</code></pre><p><img src="../figures/rect_patterns.png" alt="&quot;Pattern Rectangles&quot;"/></p><h2><a class="nav-anchor" id="Rectangles-with-transparency-1" href="#Rectangles-with-transparency-1">Rectangles with transparency</a></h2><p>This variation creates rectangles with 0, 30% and 70% transparency as well as different boundary lines.</p><pre><code class="language-julia">using GMT
 rect = [0.5 0.5; 0.5 7; 2.5 7; 2.5 0.5; 0.5 0.5];
-plot(rect, region=[0 10 0 10], lw=0.5, fill=:blue, axis=:a, axis=:equal&quot;)
+plot(rect, region=[0 10 0 10], lw=0.5, fill=:blue, axis=:a, axis=:equal)
 plot!([3 0].+rect, lw=1, ls=&quot;--&quot;, fill=:blue, transparency=30)
 plot!([6 0].+rect, lw=2, lc=:red, fill=:blue, transparency=70, fmt=:png, show=true)</code></pre><p><img src="../figures/rect_alpha.png" alt="&quot;Transparent Rectangles&quot;"/></p><footer><hr/><a class="previous" href="../examples/"><span class="direction">Previous</span><span class="title">Some examples</span></a><a class="next" href="../frames/"><span class="direction">Next</span><span class="title">Draw frames examples</span></a></footer></article></body></html>
