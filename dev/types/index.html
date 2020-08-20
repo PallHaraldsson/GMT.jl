@@ -10,7 +10,6 @@
    title::String              # Title (Optional)
    comment::String            # Remark (Optional)
    command::String            # Command used to create the grid (Optional)
-   datatype::String           # &#39;float&#39; or &#39;double&#39;
    x::Array{Float64,1}        # [1 x n_columns] vector with XX coordinates
    y::Array{Float64,1}        # [1 x n_rows]    vector with YY coordinates
    z::Array{Float32,2}        # [n_rows x n_columns] grid array
@@ -27,7 +26,6 @@ end</code></pre><h2 id="Image-type"><a class="docs-heading-anchor" href="#Image-
    registration::Int          # Registration type: 0 -&gt; Grid registration; 1 -&gt; Pixel registration
    nodata::Float64            # The value of nodata
    color_interp::String       # If equal to &quot;Gray&quot; an indexed image with no cmap will get a gray cmap
-   datatype::String           # &#39;uint8&#39; or &#39;int8&#39; (needs checking)
    x::Array{Float64,1}        # [1 x n_columns] vector with XX coordinates
    y::Array{Float64,1}        # [1 x n_rows]    vector with YY coordinates
    image::Array{UInt8,3}      # [n_rows x n_columns x n_bands] image array
@@ -60,4 +58,4 @@ end</code></pre><h2 id="Postscript-type"><a class="docs-heading-anchor" href="#P
     length::Int             # Byte length of postscript
     mode::Int               # 1 = Has header, 2 = Has trailer, 3 = Has both
     comment::Array{Any,1}   # Cell array with any comments
-end</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../text/">« text</a><a class="docs-footer-nextpage" href="../">Index »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 20 August 2020 15:28">Thursday 20 August 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../text/">« text</a><a class="docs-footer-nextpage" href="../">Index »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 20 August 2020 16:42">Thursday 20 August 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
